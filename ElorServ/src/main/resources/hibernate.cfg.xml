@@ -1,0 +1,29 @@
+<hibernate-configuration>
+    <session-factory>
+        <!-- Configuración de conexión -->
+        <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="hibernate.connection.url">
+            jdbc:mysql://localhost:3307/reto2?createDatabaseIfNotExist=true
+        </property>
+        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.password"></property>
+
+        <!-- Dialecto para MySQL -->
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Mostrar el SQL generado -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <!-- Actualizar el esquema automáticamente -->
+        <property name="hibernate.hbm2ddl.auto">update</property>
+
+        <!-- Mapeo de entidades -->
+        <mapping class="pruebaHibernate.entities.User"/>
+        <mapping class="pruebaHibernate.entities.Tipo"/>
+        <mapping class="pruebaHibernate.entities.Ciclo"/>
+        <mapping class="pruebaHibernate.entities.Modulo"/>
+        <mapping class="pruebaHibernate.entities.Horario"/>
+
+    </session-factory>
+</hibernate-configuration>
