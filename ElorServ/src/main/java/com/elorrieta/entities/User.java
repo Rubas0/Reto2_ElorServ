@@ -46,11 +46,19 @@ public class User {
 
     public User() {
     }
-    public User(String email, String username, String password, Tipo tipo) {
+
+    public User(String email, String username, String password, Tipo tipo, String nombre, String apellidos, String dni, String direccion, String telefono1, String telefono2, String argazkiaUrl) {
         this.email = email;
         this.username = username;
         this.password = password;
         this.tipo = tipo;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.dni = dni;
+        this.direccion = direccion;
+        this.telefono1 = telefono1;
+        this.telefono2 = telefono2;
+        this.argazkiaUrl = argazkiaUrl;
     }
 
     public Integer getId() {

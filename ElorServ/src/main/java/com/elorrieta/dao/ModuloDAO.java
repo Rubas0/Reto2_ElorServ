@@ -1,46 +1,44 @@
 package com.elorrieta.dao;
 
+import com.elorrieta.entities.Modulo;
+import com.elorrieta.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.elorrieta.entities.Tipo;
-import com.elorrieta.util.HibernateUtil;
 
 import java.util.List;
 
-public class TipoDAO {
+public class ModuloDAO {
 
-
-    public Tipo getById(int id) {
+    public Modulo getById(int id) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.createQuery("from Tipo t where t.id = :input", Tipo.class).setParameter("input", id).uniqueResult();
+            Modulo modulo = session.createQuery("from Modulo m where m.id = :input", Modulo.class).setParameter("input", id).uniqueResult();
             transaction.commit();
             session.close();
-            return tipo;
+            return modulo;
         } catch (Exception e) {
-            System.out.println("Error al buscar el tipo:" + e.getMessage());
+            System.out.println("Error al buscar el modulo:" + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Modulo> getAll() {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            List<Modulo> modulos = session.createQuery("from Modulo").list();
+            transaction.commit();
+            session.close();
+            return modulos;
+        } catch (Exception e) {
+            System.out.println("Error al obtener los modulos:" + e.getMessage());
             return null;
         }
     }
 
 
-    public List<Tipo> getAll() {
-        try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-            List<Tipo> tipos = session.createQuery("from Tipo").list();
-            transaction.commit();
-            session.close();
-            return tipos;
-        } catch (Exception e) {
-            System.out.println("Error al obtener los tipos:" + e.getMessage());
-            return null;
-        }
-    }
-
-
-    public void add(Tipo entity) {
+    public void add(Modulo entity) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -48,27 +46,26 @@ public class TipoDAO {
             transaction.commit();
             session.close();
         } catch (Exception e) {
-            System.out.println("Error al añadir el tipo: " + e.getMessage());
+            System.out.println("Error al añadir el modulo: " + e.getMessage());
         }
     }
 
 
-    public void update(Tipo entity) {
+    public void update(Modulo entity) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.get(Tipo.class, entity.getId());
-            if (tipo != null) {
-                tipo.setName(entity.getName());
-                tipo.setNameEu(entity.getNameEu());
-                session.merge(tipo);
+            Modulo modulo = session.get(Modulo.class, entity.getId());
+            if (modulo != null) {
+                modulo.setNombre(entity.getNombre());
+                session.merge(modulo);
                 transaction.commit();
                 session.close();
             } else {
-                System.out.println("Tipo no encontrado para actualizar.");
+                System.out.println("Modulo no encontrado para actualizar.");
             }
         } catch (Exception e) {
-            System.out.println("Error al actualizar el tipo: " + e.getMessage());
+            System.out.println("Error al actualizar el ciclo: " + e.getMessage());
         }
     }
 
@@ -77,14 +74,14 @@ public class TipoDAO {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.get(Tipo.class, id);
-            if (tipo != null) {
-                session.remove(tipo);
+            Modulo modulo = session.get(Modulo.class, id);
+            if (modulo != null) {
+                session.remove(modulo);
             }
             transaction.commit();
             session.close();
         } catch (Exception e) {
-            System.err.println("Error al eliminar el tipo" + e.getMessage());
+            System.err.println("Error al eliminar el modulo:" + e.getMessage());
         }
     }
 }

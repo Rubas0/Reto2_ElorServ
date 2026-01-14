@@ -17,7 +17,7 @@ public class Horario {
     private String dia;
 
     @Column(name = "hora", nullable = false)
-    private Byte hora;
+    private Integer hora;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -33,6 +33,17 @@ public class Horario {
 
     @Column(name = "observaciones")
     private String observaciones;
+
+    public Horario() {}
+
+    public Horario(String dia, Integer hora, User profe, Modulo modulo, String aula, String observaciones) {
+        this.dia = dia;
+        this.hora = hora;
+        this.profe = profe;
+        this.modulo = modulo;
+        this.aula = aula;
+        this.observaciones = observaciones;
+    }
 
     public Integer getId() {
         return id;
@@ -50,11 +61,11 @@ public class Horario {
         this.dia = dia;
     }
 
-    public Byte getHora() {
+    public Integer getHora() {
         return hora;
     }
 
-    public void setHora(Byte hora) {
+    public void setHora(Integer hora) {
         this.hora = hora;
     }
 

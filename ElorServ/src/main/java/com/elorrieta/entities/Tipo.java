@@ -16,6 +16,12 @@ public class Tipo {
     @Column(name = "name_eu", length = 50)
     private String nameEu;
 
+    public Tipo() {}
+
+    public Tipo(String name, String nameEu) {
+        this.name = name;
+        this.nameEu = nameEu;
+    }
 
     public Integer getId() {
         return id;

@@ -2,21 +2,14 @@ package com.elorrieta.dao;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import pruebaHibernate.entities.User;
-import pruebaHibernate.interfaces.DefaultInterface;
-import pruebaHibernate.util.HibernateUtil;
+import com.elorrieta.entities.User;
+import com.elorrieta.util.HibernateUtil;
 
 import java.util.List;
 
-public class UserDAO implements DefaultInterface {
+public class UserDAO {
 
-
-    public static void deleteUser(int id) {
-
-    }
-
-    @Override
-    public Object getById(int id) {
+    public static User getById(int id) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -25,13 +18,13 @@ public class UserDAO implements DefaultInterface {
             session.close();
             return user;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al buscar el usuario:" + e.getMessage());
             return null;
         }
     }
 
-    @Override
-    public List<User> getAll() {
+
+    public static List<User> getAll() {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -40,17 +33,16 @@ public class UserDAO implements DefaultInterface {
             session.close();
             return users;
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Error al obtener los usuarios:" + e.getMessage());
             return null;
         }
     }
 
-    @Override
-    public void add(Object user) {
+    public void add(User entity) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            session.persist(user);
+            session.persist(entity);
             transaction.commit();
             session.close();
         } catch (Exception e) {
@@ -58,12 +50,36 @@ public class UserDAO implements DefaultInterface {
         }
     }
 
-    @Override
-    public void update(Object entity) {
-
+    public void update(User entity) {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            User user = session.get(User.class, entity.getId());
+            if (user != null) {
+                user.setEmail(entity.getEmail());
+                user.setUsername(entity.getUsername());
+                user.setPassword(entity.getPassword());
+                user.setNombre(entity.getNombre());
+                user.setApellidos(entity.getApellidos());
+                user.setDni(entity.getDni());
+                user.setDireccion(entity.getDireccion());
+                user.setTelefono1(entity.getTelefono1());
+                user.setTelefono2(entity.getTelefono2());
+                user.setTipo(entity.getTipo());
+                user.setArgazkiaUrl(entity.getArgazkiaUrl());
+                session.merge(user);
+                transaction.commit();
+                session.close();
+            }
+            else {
+                System.out.println("Usuario no encontrado para actualizar.");
+            }
+        } catch (Exception e) {
+            System.out.println("Error al actualizar el usuario: " + e.getMessage());
+        }
     }
 
-    @Override
+
     public void delete(int id) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
@@ -75,7 +91,7 @@ public class UserDAO implements DefaultInterface {
             transaction.commit();
             session.close();
         } catch (Exception e) {
-            System.err.println("Error al eliminar el usuario" + e.getMessage());
+            System.err.println("Error al eliminar el usuario: " + e.getMessage());
         }
     }
 }

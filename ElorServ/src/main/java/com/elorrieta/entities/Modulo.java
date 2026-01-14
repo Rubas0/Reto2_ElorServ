@@ -26,6 +26,10 @@ public class Modulo {
     @Column(name = "curso", nullable = false)
     private Byte curso;
 
+    public Modulo() {}
+
+    public Modulo(String nombre) {}
+
     public Integer getId() {
         return id;
     }

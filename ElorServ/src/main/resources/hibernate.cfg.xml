@@ -19,11 +19,11 @@
         <property name="hibernate.hbm2ddl.auto">update</property>
 
         <!-- Mapeo de entidades -->
-        <mapping class="pruebaHibernate.entities.User"/>
-        <mapping class="pruebaHibernate.entities.Tipo"/>
-        <mapping class="pruebaHibernate.entities.Ciclo"/>
-        <mapping class="pruebaHibernate.entities.Modulo"/>
-        <mapping class="pruebaHibernate.entities.Horario"/>
+        <mapping class="com.elorrieta.entities.User"/>
+        <mapping class="com.elorrieta.entities.Tipo"/>
+        <mapping class="com.elorrieta.entities.Ciclo"/>
+        <mapping class="com.elorrieta.entities.Modulo"/>
+        <mapping class="com.elorrieta.entities.Horario"/>
 
     </session-factory>
 </hibernate-configuration>

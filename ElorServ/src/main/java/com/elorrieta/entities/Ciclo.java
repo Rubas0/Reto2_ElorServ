@@ -13,6 +13,12 @@ public class Ciclo {
     @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
 
+    public Ciclo() {}
+
+    public Ciclo(String nombre) {
+        this.nombre = nombre;
+    }
+
     public Integer getId() {
         return id;
     }

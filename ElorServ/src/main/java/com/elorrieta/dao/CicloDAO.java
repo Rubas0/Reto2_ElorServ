@@ -1,46 +1,44 @@
 package com.elorrieta.dao;
 
+import com.elorrieta.entities.Ciclo;
+import com.elorrieta.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import com.elorrieta.entities.Tipo;
-import com.elorrieta.util.HibernateUtil;
 
 import java.util.List;
 
-public class TipoDAO {
+public class CicloDAO {
 
-
-    public Tipo getById(int id) {
+    public Ciclo getById(int id) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.createQuery("from Tipo t where t.id = :input", Tipo.class).setParameter("input", id).uniqueResult();
+            Ciclo ciclo = session.createQuery("from Ciclo c where c.id = :input", Ciclo.class).setParameter("input", id).uniqueResult();
             transaction.commit();
             session.close();
-            return tipo;
+            return ciclo;
         } catch (Exception e) {
-            System.out.println("Error al buscar el tipo:" + e.getMessage());
+            System.out.println("Error al buscar el ciclo:" + e.getMessage());
+            return null;
+        }
+    }
+
+    public List<Ciclo> getAll() {
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            List<Ciclo> ciclos = session.createQuery("from Ciclo").list();
+            transaction.commit();
+            session.close();
+            return ciclos;
+        } catch (Exception e) {
+            System.out.println("Error al obtener los ciclos:" + e.getMessage());
             return null;
         }
     }
 
 
-    public List<Tipo> getAll() {
-        try {
-            Session session = HibernateUtil.getSessionFactory().openSession();
-            Transaction transaction = session.beginTransaction();
-            List<Tipo> tipos = session.createQuery("from Tipo").list();
-            transaction.commit();
-            session.close();
-            return tipos;
-        } catch (Exception e) {
-            System.out.println("Error al obtener los tipos:" + e.getMessage());
-            return null;
-        }
-    }
-
-
-    public void add(Tipo entity) {
+    public void add(Ciclo entity) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
@@ -48,27 +46,26 @@ public class TipoDAO {
             transaction.commit();
             session.close();
         } catch (Exception e) {
-            System.out.println("Error al añadir el tipo: " + e.getMessage());
+            System.out.println("Error al añadir el ciclo: " + e.getMessage());
         }
     }
 
 
-    public void update(Tipo entity) {
+    public void update(Ciclo entity) {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.get(Tipo.class, entity.getId());
-            if (tipo != null) {
-                tipo.setName(entity.getName());
-                tipo.setNameEu(entity.getNameEu());
-                session.merge(tipo);
+            Ciclo ciclo = session.get(Ciclo.class, entity.getId());
+            if (ciclo != null) {
+                ciclo.setNombre(entity.getNombre());
+                session.merge(ciclo);
                 transaction.commit();
                 session.close();
             } else {
-                System.out.println("Tipo no encontrado para actualizar.");
+                System.out.println("Ciclo no encontrado para actualizar.");
             }
         } catch (Exception e) {
-            System.out.println("Error al actualizar el tipo: " + e.getMessage());
+            System.out.println("Error al actualizar el ciclo: " + e.getMessage());
         }
     }
 
@@ -77,14 +74,14 @@ public class TipoDAO {
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            Tipo tipo = session.get(Tipo.class, id);
-            if (tipo != null) {
-                session.remove(tipo);
+            Ciclo ciclo = session.get(Ciclo.class, id);
+            if (ciclo != null) {
+                session.remove(ciclo);
             }
             transaction.commit();
             session.close();
         } catch (Exception e) {
-            System.err.println("Error al eliminar el tipo" + e.getMessage());
+            System.err.println("Error al eliminar el ciclo" + e.getMessage());
         }
     }
 }
