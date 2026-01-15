@@ -1,47 +1,60 @@
 package com.elorrieta.entities;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
 
+    @Expose
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id", nullable = false)
 	private Integer id;
 
+    @Expose
 	@Column(name = "email", nullable = false, length = 100)
 	private String email;
 
+    @Expose
 	@Column(name = "username", nullable = false, length = 50)
 	private String username;
+
 
 	@Column(name = "password", nullable = false)
 	private String password;
 
+    @Expose
 	@Column(name = "nombre", length = 50)
 	private String nombre;
 
+    @Expose
 	@Column(name = "apellidos", length = 100)
 	private String apellidos;
 
+    @Expose
 	@Column(name = "dni", length = 20)
 	private String dni;
 
+    @Expose
 	@Column(name = "direccion")
 	private String direccion;
 
+    @Expose
 	@Column(name = "telefono1", length = 20)
 	private String telefono1;
 
+    @Expose
 	@Column(name = "telefono2", length = 20)
 	private String telefono2;
 
+    @Expose
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "tipo_id", nullable = false)
 	private Tipo tipo;
 
+    @Expose
 	@Column(name = "argazkia_url")
 	private String argazkiaUrl;
 
