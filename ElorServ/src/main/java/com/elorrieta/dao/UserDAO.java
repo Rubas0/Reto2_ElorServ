@@ -98,20 +98,34 @@ public class UserDAO {
     //------------------------------ FUNCIONES EXTRA --------------------------------//
 
 
-    public static User getUserByUsername(String username) {
-        User user = null;
+    public static User login(User userLogin) {
+        User ret;
         try {
             Session session = HibernateUtil.getSessionFactory().openSession();
             Transaction transaction = session.beginTransaction();
-            user = (User) session.createQuery("FROM User U WHERE U.username = :username")
-                    .setParameter("username", username)
+            ret = session.createQuery("FROM User U JOIN FETCH U.tipo WHERE U.username = :username", User.class)
+                    .setParameter("username", userLogin.getUsername())
                     .uniqueResult();
+            // forzar la carga del tipo de usuario
+
             transaction.commit();
             session.close();
+            if (ret == null) {
+                System.out.println("Usuario no encontrado.");
+                return null;
+            } else if (!ret.getPassword().equals(userLogin.getPassword())) {
+                System.out.println("Contraseña incorrecta.");
+                return null;
+            }
+            else{
+                System.out.println("Login correcto.");
+                return ret;
+            }
+
         } catch (Exception e) {
-            System.out.println("Error al buscar el usuario por nombre de usuario: " + e.getMessage());
+            System.out.println("Error al iniciar sesión: " + e.getMessage());
+            return null;
         }
-        return user;
     }
 
 }

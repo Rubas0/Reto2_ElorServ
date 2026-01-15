@@ -1,14 +1,5 @@
 package com.elorrieta;
 
-import com.elorrieta.dao.TipoDAO;
-import com.elorrieta.dao.UserDAO;
-import com.elorrieta.entities.Tipo;
-import com.elorrieta.entities.User;
-import org.hibernate.Session;
-
-
-import java.util.List;
-
 public class Main {
     public static void main(String[] args) {
 
