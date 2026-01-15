@@ -94,4 +94,24 @@ public class UserDAO {
             System.err.println("Error al eliminar el usuario: " + e.getMessage());
         }
     }
+
+    //------------------------------ FUNCIONES EXTRA --------------------------------//
+
+
+    public static User getUserByUsername(String username) {
+        User user = null;
+        try {
+            Session session = HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+            user = (User) session.createQuery("FROM User U WHERE U.username = :username")
+                    .setParameter("username", username)
+                    .uniqueResult();
+            transaction.commit();
+            session.close();
+        } catch (Exception e) {
+            System.out.println("Error al buscar el usuario por nombre de usuario: " + e.getMessage());
+        }
+        return user;
+    }
+
 }

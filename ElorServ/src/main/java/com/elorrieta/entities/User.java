@@ -5,156 +5,158 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "users")
 public class User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
-    private Integer id;
 
-    @Column(name = "email", nullable = false, length = 100)
-    private String email;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", nullable = false)
+	private Integer id;
 
-    @Column(name = "username", nullable = false, length = 50)
-    private String username;
+	@Column(name = "email", nullable = false, length = 100)
+	private String email;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+	@Column(name = "username", nullable = false, length = 50)
+	private String username;
 
-    @Column(name = "nombre", length = 50)
-    private String nombre;
+	@Column(name = "password", nullable = false)
+	private String password;
 
-    @Column(name = "apellidos", length = 100)
-    private String apellidos;
+	@Column(name = "nombre", length = 50)
+	private String nombre;
 
-    @Column(name = "dni", length = 20)
-    private String dni;
+	@Column(name = "apellidos", length = 100)
+	private String apellidos;
 
-    @Column(name = "direccion")
-    private String direccion;
+	@Column(name = "dni", length = 20)
+	private String dni;
 
-    @Column(name = "telefono1", length = 20)
-    private String telefono1;
+	@Column(name = "direccion")
+	private String direccion;
 
-    @Column(name = "telefono2", length = 20)
-    private String telefono2;
+	@Column(name = "telefono1", length = 20)
+	private String telefono1;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "tipo_id", nullable = false)
-    private Tipo tipo;
+	@Column(name = "telefono2", length = 20)
+	private String telefono2;
 
-    @Column(name = "argazkia_url")
-    private String argazkiaUrl;
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
+	@JoinColumn(name = "tipo_id", nullable = false)
+	private Tipo tipo;
 
-    public User() {
-    }
+	@Column(name = "argazkia_url")
+	private String argazkiaUrl;
 
-    public User(String email, String username, String password, Tipo tipo, String nombre, String apellidos, String dni, String direccion, String telefono1, String telefono2, String argazkiaUrl) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.tipo = tipo;
-        this.nombre = nombre;
-        this.apellidos = apellidos;
-        this.dni = dni;
-        this.direccion = direccion;
-        this.telefono1 = telefono1;
-        this.telefono2 = telefono2;
-        this.argazkiaUrl = argazkiaUrl;
-    }
+	public User() {
+	}
 
-    public Integer getId() {
-        return id;
-    }
+	public User(String email, String username, String password, Tipo tipo, String nombre, String apellidos, String dni,
+			String direccion, String telefono1, String telefono2, String argazkiaUrl) {
+		this.email = email;
+		this.username = username;
+		this.password = password;
+		this.tipo = tipo;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.dni = dni;
+		this.direccion = direccion;
+		this.telefono1 = telefono1;
+		this.telefono2 = telefono2;
+		this.argazkiaUrl = argazkiaUrl;
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public String getUsername() {
-        return username;
-    }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public String getUsername() {
+		return username;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public String getNombre() {
-        return nombre;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
+	public String getNombre() {
+		return nombre;
+	}
 
-    public String getApellidos() {
-        return apellidos;
-    }
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 
-    public void setApellidos(String apellidos) {
-        this.apellidos = apellidos;
-    }
+	public String getApellidos() {
+		return apellidos;
+	}
 
-    public String getDni() {
-        return dni;
-    }
+	public void setApellidos(String apellidos) {
+		this.apellidos = apellidos;
+	}
 
-    public void setDni(String dni) {
-        this.dni = dni;
-    }
+	public String getDni() {
+		return dni;
+	}
 
-    public String getDireccion() {
-        return direccion;
-    }
+	public void setDni(String dni) {
+		this.dni = dni;
+	}
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
+	public String getDireccion() {
+		return direccion;
+	}
 
-    public String getTelefono1() {
-        return telefono1;
-    }
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
 
-    public void setTelefono1(String telefono1) {
-        this.telefono1 = telefono1;
-    }
+	public String getTelefono1() {
+		return telefono1;
+	}
 
-    public String getTelefono2() {
-        return telefono2;
-    }
+	public void setTelefono1(String telefono1) {
+		this.telefono1 = telefono1;
+	}
 
-    public void setTelefono2(String telefono2) {
-        this.telefono2 = telefono2;
-    }
+	public String getTelefono2() {
+		return telefono2;
+	}
 
-    public Tipo getTipo() {
-        return tipo;
-    }
+	public void setTelefono2(String telefono2) {
+		this.telefono2 = telefono2;
+	}
 
-    public void setTipo(Tipo tipo) {
-        this.tipo = tipo;
-    }
+	public Tipo getTipo() {
+		return tipo;
+	}
 
-    public String getArgazkiaUrl() {
-        return argazkiaUrl;
-    }
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
 
-    public void setArgazkiaUrl(String argazkiaUrl) {
-        this.argazkiaUrl = argazkiaUrl;
-    }
+	public String getArgazkiaUrl() {
+		return argazkiaUrl;
+	}
+
+	public void setArgazkiaUrl(String argazkiaUrl) {
+		this.argazkiaUrl = argazkiaUrl;
+	}
 
 }
