@@ -6,7 +6,6 @@ import com.elorrieta.entities.Tipo;
 import com.elorrieta.entities.User;
 import org.hibernate.Session;
 
-
 import java.util.List;
 
 public class Main {
