@@ -2,10 +2,8 @@ package com.elorrieta;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-//import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 /**
  * Clase principal de Spring Boot para el servidor ElorServ
@@ -56,14 +54,4 @@ public class ElorServApplication {
         System.out.println();
     }
 
-    /**
-     * Bean para cifrado de contraseñas con BCrypt
-     * Se usa en toda la aplicación para hashear passwords
-     * 
-     * @return PasswordEncoder configurado con BCrypt
-     */
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(11); // El 11 es la fuerza del hash, chagpt me recomienda entre 10 y 12
-//    }
 }

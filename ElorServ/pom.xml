@@ -54,13 +54,6 @@
         	<artifactId>spring-context-support</artifactId>
         	<version>6.0.13</version>
     	</dependency>
-    	
-		<!-- BCrypt para passwords -->
-	    <dependency>
-	        <groupId>org.mindrot</groupId>
-	        <artifactId>jbcrypt</artifactId>
-	        <version>0.4</version>
-	    </dependency>
 
         <!-- Gson para JSON -->
         <dependency>
