@@ -1,4 +1,4 @@
-package com.elorrieta.controllers;
+package com.elorrieta.controller;
 
 import com.elorrieta.entities.User;
 import com.google.gson.Gson;
@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.FileWriter;
 
-public class ControladorJSON {
+public class JSONController {
     public static void UserToJSON(User user){
         Gson gson = null;
         // convert User object to JSON

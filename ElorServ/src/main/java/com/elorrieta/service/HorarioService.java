@@ -51,7 +51,7 @@ public class HorarioService {
      * Obtener horario semanal de un alumno
      * NOTA: El horario del alumno se genera dinámicamente
      * a partir de los horarios de sus profesores
-     * TODO: Implementar generación dinámica
+     * TODO: Implementar generación dinámica(?)
      */
     public List<Horario> getHorarioAlumno(int alumnoId) {
         // TODO: Generar horario del alumno a partir de: 
