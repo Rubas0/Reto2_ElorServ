@@ -5,8 +5,11 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "reuniones")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Reuniones {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,11 +28,13 @@ public class Reuniones {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "profesor_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User profesor;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
     @JoinColumn(name = "alumno_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User alumno;
 
     @ColumnDefault("'15112'")

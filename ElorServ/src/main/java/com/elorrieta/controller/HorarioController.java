@@ -5,6 +5,7 @@ import com.elorrieta.service.HorarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class HorarioController {
      * @return 200 OK + lista de horarios
      */
     @GetMapping
+    @Transactional(readOnly = true)
     public ResponseEntity<List<Horario>> getAllHorarios() {
         try {
             List<Horario> horarios = horarioService.getAll();

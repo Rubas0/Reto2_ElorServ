@@ -1,9 +1,12 @@
 package com.elorrieta.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "modulos")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Modulo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +24,7 @@ public class Modulo {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ciclo_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Ciclo ciclo;
 
     @Column(name = "curso", nullable = false)

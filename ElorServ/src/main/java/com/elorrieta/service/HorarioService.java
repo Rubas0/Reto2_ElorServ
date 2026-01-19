@@ -34,7 +34,7 @@ public class HorarioService {
     }
 
     public List<Horario> getHorarioProfesor(int profesorId) {
-        return horarioRepository. findByProfesorId(profesorId);
+        return horarioRepository.findByProfesorId(profesorId);
     }
 
     public List<Horario> getHorarioAlumno(int alumnoId) {
