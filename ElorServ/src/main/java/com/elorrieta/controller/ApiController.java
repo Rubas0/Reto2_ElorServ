@@ -31,12 +31,12 @@ public class ApiController {
         Map<String, Object> info = new HashMap<>();
         
         info.put("nombre", "ElorServ API");
-        info.put("version", "1.0.0");
+        info.put("version", "1.0");
         info.put("descripcion", "API REST del Grupo 2 creo");
         info.put("status", "online");
         
         Map<String, String> endpoints = new HashMap<>();
-        endpoints. put("Login", "POST /api/auth/login");
+        endpoints.put("Login", "POST /api/auth/login");
         endpoints.put("Reset Password", "POST /api/auth/reset-password");
         endpoints.put("Change Password", "POST /api/auth/change-password");
         endpoints.put("Usuarios", "GET/POST/PUT/DELETE /api/users");

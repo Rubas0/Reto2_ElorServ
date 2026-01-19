@@ -22,7 +22,7 @@ public class ReunionesDAO {
             transaction = session.beginTransaction();
             Reuniones reunion = session.createQuery("from Reuniones r where r.id = :input", Reuniones.class)
                     .setParameter("input", id)
-                    . uniqueResult();
+                    .uniqueResult();
             transaction. commit();
             return reunion;
         } catch (Exception e) {

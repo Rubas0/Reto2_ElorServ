@@ -22,10 +22,6 @@ import java.util.Map;
  * - DELETE /api/reuniones/{id}
  * - PUT    /api/reuniones/{id}/estado
  * 
- * Cumple con: 
- * - Rúbrica ADT:  Reuniones (18 pts)
- * - Rúbrica PSP: API REST (16 pts)
- * - Rúbrica App Móvil: Reuniones (múltiples puntos)
  */
 @RestController
 @RequestMapping("/api/reuniones")
@@ -48,8 +44,8 @@ public class ReunionController {
             List<Reuniones> reuniones = reunionService. getAll();
             return ResponseEntity.ok(reuniones);
         } catch (Exception e) {
-            System.err.println("Error al obtener reuniones: " + e. getMessage());
-            return ResponseEntity. status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            System.err.println("Error al obtener reuniones: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -62,7 +58,6 @@ public class ReunionController {
      * @return 200 OK + reunión
      *         404 NOT_FOUND si no existe
      * 
-     * Cumple con:  Rúbrica ADT - Recuperar reunión (3 pts)
      */
     @GetMapping("/{id}")
     public ResponseEntity<? > getReunionById(@PathVariable int id) {
@@ -94,7 +89,6 @@ public class ReunionController {
      * @return 201 CREATED + reunión creada
      *         400 BAD_REQUEST si faltan datos
      * 
-     * Cumple con: Rúbrica ADT - Crear reunión (5 pts)
      */
     @PostMapping
     public ResponseEntity<? > createReunion(@RequestBody Reuniones reunion) {
@@ -221,7 +215,6 @@ public class ReunionController {
      *   "estadoEus": "onartua"
      * }
      * 
-     * Cumple con: Rúbrica ADT - Cambio estado reunión (5 pts)
      */
     @PutMapping("/{id}/estado")
     public ResponseEntity<?> cambiarEstado(@PathVariable int id, @RequestBody Map<String, String> estadoRequest) {

@@ -24,6 +24,6 @@
         <mapping class="com.elorrieta.entities.Ciclo"/>
         <mapping class="com.elorrieta.entities.Modulo"/>
         <mapping class="com.elorrieta.entities.Horario"/>
-
+        <mapping class="com.elorrieta.entities.Reuniones"/>
     </session-factory>
 </hibernate-configuration>

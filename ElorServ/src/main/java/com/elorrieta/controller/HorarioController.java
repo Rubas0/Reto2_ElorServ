@@ -88,7 +88,7 @@ public class HorarioController {
      * 
      */
     @GetMapping("/profesor/{profesorId}")
-    public ResponseEntity<? > getHorarioProfesor(@PathVariable int profesorId) {
+    public ResponseEntity<?> getHorarioProfesor(@PathVariable int profesorId) {
         try {
             List<Horario> horarios = horarioService.getHorarioProfesor(profesorId);
 

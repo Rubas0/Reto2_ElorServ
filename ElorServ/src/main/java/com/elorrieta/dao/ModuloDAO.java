@@ -1,10 +1,10 @@
 package com.elorrieta.dao;
 
-import com. elorrieta.entities. Modulo;
+import com.elorrieta.entities. Modulo;
 import com.elorrieta.util.HibernateUtil;
-import org. hibernate.Session;
-import org. hibernate.Transaction;
-import org. springframework.stereotype.Component;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -88,7 +88,7 @@ public class ModuloDAO {
             }
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
-            System. out.println("Error al actualizar el modulo: " + e. getMessage());
+            System.out.println("Error al actualizar el modulo: " + e.getMessage());
         } finally {
             if (session != null) session.close();
         }
