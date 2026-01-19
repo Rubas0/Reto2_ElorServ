@@ -5,7 +5,7 @@ import com.elorrieta.service.UserService;
 import org. springframework.beans.factory.annotation. Autowired;
 import org. springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework. http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,10 +13,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file. Paths;
-import java.util. HashMap;
-import java.util. List;
-import java.util. Map;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Controller REST para gestión de usuarios
@@ -29,12 +29,8 @@ import java.util. Map;
  * - DELETE /api/users/{id}
  * - POST   /api/users/{id}/photo
  * - GET    /api/users/{id}/photo
- * 
- * Cumple con:
- * - Rúbrica ADT:  Perfil (13 pts) - recuperar, foto
- * - Rúbrica PSP: API REST (16 pts)
- * - Rúbrica App Móvil: Perfil (3 pts) + Foto (5 pts)
  */
+
 @RestController
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
@@ -63,8 +59,8 @@ public class UserController {
             
             return ResponseEntity.ok(users);
         } catch (Exception e) {
-            System.err.println("Error al obtener usuarios: " + e. getMessage());
-            return ResponseEntity. status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            System.err.println("Error al obtener usuarios: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -197,7 +193,7 @@ public class UserController {
             return ResponseEntity. noContent().build();
 
         } catch (Exception e) {
-            System.err.println("Error al eliminar usuario: " + e. getMessage());
+            System.err.println("Error al eliminar usuario: " + e.getMessage());
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(createErrorResponse("Error interno del servidor"));
@@ -214,10 +210,6 @@ public class UserController {
      * @return 200 OK si se subió correctamente
      *         404 NOT_FOUND si el usuario no existe
      *         400 BAD_REQUEST si el archivo es inválido
-     * 
-     * Cumple con:
-     * - Rúbrica ADT:  Insertar foto perfil (5 pts)
-     * - Rúbrica App Móvil: Añadir foto (5 pts)
      */
     @PostMapping("/{id}/photo")
     public ResponseEntity<?> uploadPhoto(@PathVariable int id, @RequestParam("file") MultipartFile file) {
@@ -241,7 +233,7 @@ public class UserController {
             if (contentType == null || !contentType.startsWith("image/")) {
                 return ResponseEntity
                         .badRequest()
-                        . body(createErrorResponse("El archivo debe ser una imagen"));
+                        .body(createErrorResponse("El archivo debe ser una imagen"));
             }
 
             // Crear directorio si no existe
@@ -291,9 +283,6 @@ public class UserController {
      * @return 200 OK + imagen
      *         404 NOT_FOUND si el usuario o la foto no existen
      * 
-     * Cumple con:
-     * - Rúbrica ADT: Recuperar foto perfil (5 pts)
-     * - Rúbrica App Móvil: Mostrar foto (5 pts)
      */
     @GetMapping("/{id}/photo")
     public ResponseEntity<?> getPhoto(@PathVariable int id) {

@@ -20,9 +20,6 @@ import java.util.Map;
  * - GET /api/horarios/profesor/{profesorId}
  * - GET /api/horarios/alumno/{alumnoId}
  * 
- * Cumple con: 
- * - Rúbrica ADT: Horarios (5 pts)
- * - Rúbrica App Móvil: Horarios profesor/alumno (múltiples puntos)
  */
 @RestController
 @RequestMapping("/api/horarios")
@@ -89,7 +86,6 @@ public class HorarioController {
      * @return 200 OK + horario del profesor
      *         404 NOT_FOUND si el profesor no tiene horario
      * 
-     * Cumple con: Rúbrica ADT - Recuperar horario Profesor (5 pts)
      */
     @GetMapping("/profesor/{profesorId}")
     public ResponseEntity<? > getHorarioProfesor(@PathVariable int profesorId) {
@@ -127,7 +123,6 @@ public class HorarioController {
      * @return 200 OK + horario del alumno
      *         404 NOT_FOUND si el alumno no tiene horario
      * 
-     * Cumple con: Rúbrica ADT - Recuperar horario Alumno (5 pts)
      */
     @GetMapping("/alumno/{alumnoId}")
     public ResponseEntity<?> getHorarioAlumno(@PathVariable int alumnoId) {

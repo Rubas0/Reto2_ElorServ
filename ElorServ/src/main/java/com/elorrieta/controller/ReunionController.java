@@ -227,7 +227,8 @@ public class ReunionController {
     public ResponseEntity<?> cambiarEstado(@PathVariable int id, @RequestBody Map<String, String> estadoRequest) {
         try {
             String nuevoEstado = estadoRequest.get("estado");
-            String nuevoEstadoEus = estadoRequest.get("estadoEus");
+            //TODO: Euskera bilingual
+            //String nuevoEstadoEus = estadoRequest.get("estadoEus");
 
             if (nuevoEstado == null || nuevoEstado.isEmpty()) {
                 return ResponseEntity
@@ -237,7 +238,7 @@ public class ReunionController {
 
             // Validar que el estado sea uno válido
             List<String> estadosValidos = List.of("pendiente", "aceptada", "cancelada", "confirmada", "conflicto");
-            if (!estadosValidos.contains(nuevoEstado. toLowerCase())) {
+            if (!estadosValidos.contains(nuevoEstado.toLowerCase())) {
                 return ResponseEntity
                         .badRequest()
                         .body(createErrorResponse("Estado inválido. Estados válidos: " + String.join(", ", estadosValidos)));

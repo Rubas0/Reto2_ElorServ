@@ -17,10 +17,6 @@ import java.util.Map;
  * - POST /api/auth/login
  * - POST /api/auth/reset-password
  * 
- * Cumple con: 
- * - Rúbrica ADT: Login (6 pts) + Cambio password (3 pts)
- * - Rúbrica PSP: API REST (16 pts)
- * - Rúbrica App Móvil: Login (5 pts) + Reset password (5 pts)
  */
 @RestController
 @RequestMapping("/api/auth")

@@ -1,9 +1,9 @@
 package com.elorrieta.controller;
 
-import org. springframework.http.ResponseEntity;
-import org. springframework.web.bind.annotation. CrossOrigin;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework. web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -32,7 +32,7 @@ public class ApiController {
         
         info.put("nombre", "ElorServ API");
         info.put("version", "1.0.0");
-        info.put("descripcion", "API REST del Framework Educativo CIFP Elorrieta-Errekamari");
+        info.put("descripcion", "API REST del Grupo 2 creo");
         info.put("status", "online");
         
         Map<String, String> endpoints = new HashMap<>();
@@ -64,7 +64,7 @@ public class ApiController {
     @GetMapping("/health")
     public ResponseEntity<Map<String, String>> health() {
         Map<String, String> health = new HashMap<>();
-        health.put("status", "UP");
+        health.put("status", "Funcionanding");
         health.put("message", "ElorServ API está funcionando correctamente");
         
         return ResponseEntity.ok(health);
