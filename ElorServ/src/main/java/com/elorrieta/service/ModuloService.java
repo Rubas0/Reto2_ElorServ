@@ -1,54 +1,43 @@
 package com.elorrieta.service;
 
-import com.elorrieta. dao.ModuloDAO;
-import com.elorrieta. entities.Modulo;
-import org.springframework.beans.factory. annotation.Autowired;
+import com.elorrieta.entities.Modulo;
+import com.elorrieta.repository.ModuloRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation. Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Servicio para gestión de módulos
- */
 @Service
+@Transactional
 public class ModuloService {
 
     @Autowired
-    private ModuloDAO moduloDAO;
+    private ModuloRepository moduloRepository;
 
     public Modulo getById(int id) {
-        return moduloDAO.getById(id);
+        Optional<Modulo> modulo = moduloRepository.findById(id);
+        return modulo.orElse(null);
     }
 
     public List<Modulo> getAll() {
-        return moduloDAO.getAll();
+        return moduloRepository.findAll();
     }
 
     public void save(Modulo modulo) {
-        if (modulo.getId() == null || modulo.getId() == 0) {
-            moduloDAO.add(modulo);
-        } else {
-            moduloDAO.update(modulo);
-        }
+        moduloRepository.save(modulo);
     }
 
     public void delete(int id) {
-        moduloDAO.delete(id);
+        moduloRepository.deleteById(id);
     }
 
-    /**
-     * Obtener módulos de un ciclo específico
-     */
     public List<Modulo> getModulosPorCiclo(int cicloId) {
-        // TODO: Implementar filtrado por ciclo_id
-        return moduloDAO.getAll();
+        return moduloRepository.findByCicloId(cicloId);
     }
 
-    /**
-     * Obtener módulos de un ciclo y curso específico
-     */
     public List<Modulo> getModulosPorCicloYCurso(int cicloId, byte curso) {
-        // TODO: Implementar filtrado por ciclo_id y curso
-        return moduloDAO.getAll();
+        return moduloRepository.findByCicloIdAndCurso(cicloId, curso);
     }
 }

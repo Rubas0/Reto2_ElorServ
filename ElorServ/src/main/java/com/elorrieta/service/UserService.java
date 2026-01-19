@@ -1,117 +1,109 @@
 package com.elorrieta.service;
 
-import com. elorrieta.dao.UserDAO;
 import com.elorrieta.entities.User;
+import com.elorrieta.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Servicio para gestión de usuarios
- * Capa intermedia entre Controllers y DAOs
+ * Usa UserRepository (Spring Data JPA)
  */
 @Service
+@Transactional
 public class UserService {
 
     @Autowired
-    private UserDAO userDAO;
+    private UserRepository userRepository;
 
     // ========== CRUD BÁSICO ==========
 
     public User getById(int id) {
-        return userDAO.getById(id);
+        Optional<User> user = userRepository. findById(id);
+        return user.orElse(null);
     }
 
     public List<User> getAll() {
-        return userDAO.getAll();
+        return userRepository. findAll();
     }
 
     public void save(User user) {
-        if (user.getId() == null || user.getId() == 0) {
-            userDAO.add(user);
-        } else {
-            userDAO.update(user);
-        }
+        userRepository.save(user);
     }
 
     public void delete(int id) {
-        userDAO.delete(id);
+        userRepository.deleteById(id);
     }
 
     // ========== MÉTODOS DE AUTENTICACIÓN ==========
 
-    /**
-     * Login de usuario
-     * @param userLogin Usuario con username y password
-     * @return Usuario completo si las credenciales son correctas, null en caso contrario
-     */
     public User login(User userLogin) {
-        return userDAO.login(userLogin);
-    }
-
-    /**
-     * Buscar usuario por email
-     * Útil para recuperación de contraseña
-     */
-    public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email);
-    }
-
-    /**
-     * Cambiar contraseña de un usuario
-     * TODO: Implementar cifrado cuando añadamos seguridad
-     */
-    public boolean changePassword(int userId, String oldPassword, String newPassword) {
-        User user = userDAO.getById(userId);
+        Optional<User> userOpt = userRepository.findByUsernameWithTipo(userLogin.getUsername());
         
-        if (user == null) {
+        if (userOpt.isEmpty()) {
+            System.out.println("Usuario no encontrado");
+            return null;
+        }
+        
+        User user = userOpt.get();
+        
+        if (!user.getPassword().equals(userLogin.getPassword())) {
+            System.out. println("Contraseña incorrecta");
+            return null;
+        }
+        
+        System.out.println("Login correcto");
+        return user;
+    }
+
+    public User getUserByEmail(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        return user.orElse(null);
+    }
+
+    public boolean changePassword(int userId, String oldPassword, String newPassword) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        
+        if (userOpt.isEmpty()) {
             System.out.println("Usuario no encontrado");
             return false;
         }
         
-        // Verificar contraseña actual
-        if (!user.getPassword().equals(oldPassword)) {
+        User user = userOpt. get();
+        
+        if (! user.getPassword().equals(oldPassword)) {
             System.out.println("Contraseña actual incorrecta");
             return false;
         }
         
-        // Cambiar contraseña
         user.setPassword(newPassword);
-        userDAO.update(user);
+        userRepository.save(user);
         
         System.out.println("Contraseña cambiada correctamente");
         return true;
     }
 
-    /**
-     * Resetear contraseña (genera una aleatoria)
-     * TODO: Enviar email con la nueva contraseña
-     */
     public String resetPassword(String email) {
-        User user = userDAO.getUserByEmail(email);
+        Optional<User> userOpt = userRepository.findByEmail(email);
         
-        if (user == null) {
+        if (userOpt.isEmpty()) {
             System.out.println("Usuario no encontrado con ese email");
             return null;
         }
         
-        // Generar contraseña aleatoria (8 caracteres)
+        User user = userOpt.get();
         String newPassword = generateRandomPassword();
         user.setPassword(newPassword);
-        userDAO.update(user);
+        userRepository.save(user);
         
-        System.out.println("Contraseña reseteada para: " + email);
-        // TODO: Enviar email con la nueva contraseña
-        
+        System.out. println("Contraseña reseteada para:  " + email);
         return newPassword;
     }
 
-    // ========== MÉTODOS AUXILIARES ==========
-
-    /**
-     * Genera una contraseña aleatoria de 8 caracteres
-     */
     private String generateRandomPassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder password = new StringBuilder();
@@ -121,6 +113,6 @@ public class UserService {
             password.append(chars.charAt(index));
         }
         
-        return password. toString();
+        return password.toString();
     }
 }

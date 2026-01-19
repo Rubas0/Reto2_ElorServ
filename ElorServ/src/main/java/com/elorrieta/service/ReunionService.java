@@ -1,61 +1,51 @@
 package com.elorrieta.service;
 
-import com.elorrieta.dao.ReunionesDAO;
 import com.elorrieta.entities.Reuniones;
-import org.springframework. beans.factory.annotation.Autowired;
-import org.springframework. stereotype.Service;
+import com.elorrieta.repository.ReunionesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java. util.List;
+import java.util.List;
+import java.util.Optional;
 
-/**
- * Servicio para gestión de reuniones
- * Incluye lógica de negocio específica de reuniones
- */
 @Service
+@Transactional
 public class ReunionService {
 
     @Autowired
-    private ReunionesDAO reunionesDAO;
+    private ReunionesRepository reunionesRepository;
 
     public Reuniones getById(int id) {
-        return reunionesDAO.getById(id);
+        Optional<Reuniones> reunion = reunionesRepository.findById(id);
+        return reunion.orElse(null);
     }
 
     public List<Reuniones> getAll() {
-        return reunionesDAO.getAll();
+        return reunionesRepository.findAll();
     }
 
     public void save(Reuniones reunion) {
-        if (reunion.getId() == null || reunion.getId() == 0) {
-            reunionesDAO.add(reunion);
-        } else {
-            reunionesDAO.update(reunion);
-        }
+        reunionesRepository.save(reunion);
     }
 
     public void delete(int id) {
-        reunionesDAO.delete(id);
+        reunionesRepository.deleteById(id);
     }
 
-    /**
-     * Cambiar el estado de una reunión
-     * Estados: pendiente, aceptada, cancelada, confirmada
-     * TODO: Enviar email cuando cambie el estado
-     */
     public boolean cambiarEstado(int reunionId, String nuevoEstado) {
-        Reuniones reunion = reunionesDAO.getById(reunionId);
+        Optional<Reuniones> reunionOpt = reunionesRepository.findById(reunionId);
         
-        if (reunion == null) {
+        if (reunionOpt.isEmpty()) {
             System.out.println("Reunión no encontrada");
             return false;
         }
         
+        Reuniones reunion = reunionOpt.get();
         reunion.setEstado(nuevoEstado);
-        reunionesDAO.update(reunion);
+        reunionesRepository.save(reunion);
         
         System.out.println("Estado de reunión cambiado a: " + nuevoEstado);
-        // TODO: Enviar email a los participantes
-        
         return true;
     }
 }

@@ -1,38 +1,35 @@
 package com.elorrieta.service;
 
-import com.elorrieta.dao.CicloDAO;
 import com.elorrieta.entities.Ciclo;
+import com.elorrieta.repository.CicloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Servicio para gestión de ciclos formativos
- */
 @Service
+@Transactional
 public class CicloService {
 
     @Autowired
-    private CicloDAO cicloDAO;
+    private CicloRepository cicloRepository;
 
     public Ciclo getById(int id) {
-        return cicloDAO.getById(id);
+        Optional<Ciclo> ciclo = cicloRepository.findById(id);
+        return ciclo.orElse(null);
     }
 
     public List<Ciclo> getAll() {
-        return cicloDAO.getAll();
+        return cicloRepository.findAll();
     }
 
     public void save(Ciclo ciclo) {
-        if (ciclo.getId() == null || ciclo.getId() == 0) {
-            cicloDAO. add(ciclo);
-        } else {
-            cicloDAO. update(ciclo);
-        }
+        cicloRepository.save(ciclo);
     }
 
     public void delete(int id) {
-        cicloDAO.delete(id);
+        cicloRepository.deleteById(id);
     }
 }

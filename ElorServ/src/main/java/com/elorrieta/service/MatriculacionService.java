@@ -1,54 +1,43 @@
 package com.elorrieta.service;
 
-import com.elorrieta.dao.MatriculacionesDAO;
 import com.elorrieta.entities.Matriculaciones;
-import org.springframework.beans.factory.annotation. Autowired;
+import com.elorrieta.repository.MatriculacionesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-/**
- * Servicio para gestión de matriculaciones
- */
 @Service
+@Transactional
 public class MatriculacionService {
 
     @Autowired
-    private MatriculacionesDAO matriculacionesDAO;
+    private MatriculacionesRepository matriculacionesRepository;
 
     public Matriculaciones getById(int id) {
-        return matriculacionesDAO.getById(id);
+        Optional<Matriculaciones> matriculacion = matriculacionesRepository.findById(id);
+        return matriculacion.orElse(null);
     }
 
     public List<Matriculaciones> getAll() {
-        return matriculacionesDAO.getAll();
+        return matriculacionesRepository.findAll();
     }
 
     public void save(Matriculaciones matriculacion) {
-        if (matriculacion.getId() == null || matriculacion.getId() == 0) {
-            matriculacionesDAO.add(matriculacion);
-        } else {
-            matriculacionesDAO.update(matriculacion);
-        }
+        matriculacionesRepository.save(matriculacion);
     }
 
     public void delete(int id) {
-        matriculacionesDAO.delete(id);
+        matriculacionesRepository.deleteById(id);
     }
 
-    /**
-     * Obtener matriculaciones de un alumno específico
-     */
     public List<Matriculaciones> getMatriculacionesAlumno(int alumnoId) {
-        // TODO: Implementar filtrado por alumno_id
-        return matriculacionesDAO.getAll();
+        return matriculacionesRepository.findByAlumnoId(alumnoId);
     }
 
-    /**
-     * Obtener alumnos matriculados en un ciclo y curso específico
-     */
     public List<Matriculaciones> getAlumnosPorCicloYCurso(int cicloId, byte curso) {
-        // TODO: Implementar filtrado por ciclo_id y curso
-        return matriculacionesDAO.getAll();
+        return matriculacionesRepository.findByCicloIdAndCurso(cicloId, curso);
     }
 }

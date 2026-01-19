@@ -17,18 +17,18 @@ public interface HorarioRepository extends JpaRepository<Horario, Integer> {
     /**
      * Obtener todos los horarios de un profesor
      */
-    @Query("SELECT h FROM Horario h WHERE h.profe. id = :profesorId")
+    @Query("SELECT h FROM Horario h WHERE h.profe.id = :profesorId")
     List<Horario> findByProfesorId(@Param("profesorId") Integer profesorId);
 
     /**
      * Obtener horarios de un profesor por día
      */
-    @Query("SELECT h FROM Horario h WHERE h.profe.id = : profesorId AND h.dia = :dia")
+    @Query("SELECT h FROM Horario h WHERE h.profe.id = :profesorId AND h.dia = :dia")
     List<Horario> findByProfesorIdAndDia(@Param("profesorId") Integer profesorId, @Param("dia") String dia);
 
     /**
      * Obtener horarios por módulo (para generar horario del alumno)
      */
-    @Query("SELECT h FROM Horario h WHERE h.modulo. id = :moduloId")
+    @Query("SELECT h FROM Horario h WHERE h.modulo.id = :moduloId")
     List<Horario> findByModuloId(@Param("moduloId") Integer moduloId);
 }
