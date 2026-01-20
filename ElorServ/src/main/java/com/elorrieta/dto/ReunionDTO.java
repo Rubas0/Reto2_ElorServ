@@ -9,9 +9,9 @@ public class ReunionDTO {
     private String estadoEus;
     private String titulo;
     private String asunto;
-    private String dia;
-    private Byte semana;
-    private Byte hora;
+    private Integer dia;
+    private Integer semana;
+    private Integer hora;
     private String aula;
     private String idCentro;
     private ProfesorDTO profesor;
@@ -62,27 +62,27 @@ public class ReunionDTO {
         this.asunto = asunto;
     }
 
-    public String getDia() {
+    public Integer getDia() {
         return dia;
     }
 
-    public void setDia(String dia) {
-        this.dia = dia;
+    public void setDia(Integer integer) {
+        this.dia = integer;
     }
 
-    public Byte getSemana() {
+    public Integer getSemana() {
         return semana;
     }
 
-    public void setSemana(Byte semana) {
+    public void setSemana(Integer semana) {
         this.semana = semana;
     }
 
-    public Byte getHora() {
+    public Integer getHora() {
         return hora;
     }
 
-    public void setHora(Byte hora) {
+    public void setHora(Integer hora) {
         this.hora = hora;
     }
 

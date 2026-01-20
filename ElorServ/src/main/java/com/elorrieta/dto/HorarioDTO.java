@@ -6,7 +6,7 @@ package com.elorrieta.dto;
 public class HorarioDTO {
     private Integer id;
     private String dia;
-    private Byte hora;
+    private Integer hora;
     private String aula;
     private String observaciones;
     private ProfesorDTO profe;
@@ -33,12 +33,12 @@ public class HorarioDTO {
         this.dia = dia;
     }
 
-    public Byte getHora() {
+    public Integer getHora() {
         return hora;
     }
 
-    public void setHora(Byte hora) {
-        this.hora = hora;
+    public void setHora(Integer integer) {
+        this.hora = integer;
     }
 
     public String getAula() {

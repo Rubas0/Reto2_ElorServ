@@ -1,6 +1,10 @@
 package com.elorrieta.service;
 
+import com.elorrieta.dto.LoginRequestDTO;
+import com.elorrieta.dto.LoginResponseDTO;
+import com.elorrieta.dto.UserDTO;
 import com.elorrieta.entities.User;
+import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Servicio para gestión de usuarios
- * Usa UserRepository (Spring Data JPA)
+ * Devuelve DTOs
  */
 @Service
 @Transactional
@@ -20,19 +25,27 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    // ========== CRUD BÁSICO ==========
+    @Autowired
+    private UserMapper userMapper;
 
-    public User getById(int id) {
-        Optional<User> user = userRepository. findById(id);
-        return user.orElse(null);
+    // ========== CRUD BÁSICO (devuelve DTOs) ==========
+
+    public UserDTO getById(int id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(userMapper::toDTO).orElse(null);
     }
 
-    public List<User> getAll() {
-        return userRepository. findAll();
+    public List<UserDTO> getAll() {
+        List<User> users = userRepository.findAll();
+        return users.stream()
+                .map(userMapper:: toDTO)
+                .collect(Collectors.toList());
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public UserDTO save(UserDTO userDTO) {
+        User user = userMapper.toEntity(userDTO);
+        User savedUser = userRepository.save(user);
+        return userMapper.toDTO(savedUser);
     }
 
     public void delete(int id) {
@@ -41,28 +54,27 @@ public class UserService {
 
     // ========== MÉTODOS DE AUTENTICACIÓN ==========
 
-    public User login(User userLogin) {
-        Optional<User> userOpt = userRepository.findByUsernameWithTipo(userLogin.getUsername());
+    public LoginResponseDTO login(LoginRequestDTO loginRequest) {
+        Optional<User> userOpt = userRepository.findByUsernameWithTipo(loginRequest.getUsername());
         
         if (userOpt.isEmpty()) {
-            System.out.println("Usuario no encontrado");
-            return null;
+            return new LoginResponseDTO(false, "Usuario no encontrado");
         }
         
         User user = userOpt.get();
         
-        if (!user.getPassword().equals(userLogin.getPassword())) {
-            System.out. println("Contraseña incorrecta");
-            return null;
+        // TODO: Aquí debería descifrarse el password con RSA y compararse con BCrypt
+        if (! user.getPassword().equals(loginRequest.getPassword())) {
+            return new LoginResponseDTO(false, "Contraseña incorrecta");
         }
         
-        System.out.println("Login correcto");
-        return user;
+        UserDTO userDTO = userMapper.toDTO(user);
+        return new LoginResponseDTO(true, "Login correcto", userDTO);
     }
 
-    public User getUserByEmail(String email) {
+    public UserDTO getUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        return user.orElse(null);
+        return user.map(userMapper:: toDTO).orElse(null);
     }
 
     public boolean changePassword(int userId, String oldPassword, String newPassword) {
@@ -73,10 +85,10 @@ public class UserService {
             return false;
         }
         
-        User user = userOpt. get();
+        User user = userOpt.get();
         
-        if (! user.getPassword().equals(oldPassword)) {
-            System.out.println("Contraseña actual incorrecta");
+        if (!user.getPassword().equals(oldPassword)) {
+            System. out.println("Contraseña actual incorrecta");
             return false;
         }
         
@@ -101,6 +113,8 @@ public class UserService {
         userRepository.save(user);
         
         System.out. println("Contraseña reseteada para:  " + email);
+        // TODO: Enviar email con la nueva contraseña
+        
         return newPassword;
     }
 
