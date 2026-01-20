@@ -1,12 +1,11 @@
 package com.elorrieta.controller;
 
-import com.elorrieta.entities.Horario;
-import com.elorrieta.service.HorarioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com. elorrieta.dto.HorarioDTO;
+import com. elorrieta.service.HorarioService;
+import org. springframework.beans.factory.annotation. Autowired;
+import org. springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
+import org.springframework. web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,12 +14,11 @@ import java.util.Map;
 /**
  * Controller REST para gestión de horarios
  * 
- * Endpoints: 
+ * Endpoints:  
  * - GET /api/horarios
  * - GET /api/horarios/{id}
  * - GET /api/horarios/profesor/{profesorId}
  * - GET /api/horarios/alumno/{alumnoId}
- * 
  */
 @RestController
 @RequestMapping("/api/horarios")
@@ -33,26 +31,25 @@ public class HorarioController {
     /**
      * GET /api/horarios
      * 
-     * Obtener todos los horarios
+     * Obtener todos los horarios (devuelve DTOs)
      * 
      * @return 200 OK + lista de horarios
      */
     @GetMapping
-    @Transactional(readOnly = true)
-    public ResponseEntity<List<Horario>> getAllHorarios() {
+    public ResponseEntity<List<HorarioDTO>> getAllHorarios() {
         try {
-            List<Horario> horarios = horarioService.getAll();
-            return ResponseEntity.ok(horarios);
+            List<HorarioDTO> horarios = horarioService.getAll();
+            return ResponseEntity. ok(horarios);
         } catch (Exception e) {
-            System.err.println("Error al obtener horarios: " + e. getMessage());
-            return ResponseEntity. status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            System.err.println("Error al obtener horarios: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
     /**
      * GET /api/horarios/{id}
      * 
-     * Obtener un horario por ID
+     * Obtener un horario por ID (devuelve DTO)
      * 
      * @param id ID del horario
      * @return 200 OK + horario
@@ -61,38 +58,37 @@ public class HorarioController {
     @GetMapping("/{id}")
     public ResponseEntity<?> getHorarioById(@PathVariable int id) {
         try {
-            Horario horario = horarioService. getById(id);
+            HorarioDTO horario = horarioService.getById(id);
 
             if (horario == null) {
                 return ResponseEntity
-                        . status(HttpStatus.NOT_FOUND)
+                        .status(HttpStatus.NOT_FOUND)
                         .body(createErrorResponse("Horario no encontrado"));
             }
 
             return ResponseEntity.ok(horario);
 
         } catch (Exception e) {
-            System.err. println("Error al obtener horario: " + e.getMessage());
+            System.err.println("Error al obtener horario: " + e.getMessage());
             return ResponseEntity
-                    . status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    . body(createErrorResponse("Error interno del servidor"));
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createErrorResponse("Error interno del servidor"));
         }
     }
 
     /**
      * GET /api/horarios/profesor/{profesorId}
      * 
-     * Obtener el horario semanal de un profesor
+     * Obtener el horario semanal de un profesor (devuelve DTOs)
      * 
      * @param profesorId ID del profesor
      * @return 200 OK + horario del profesor
      *         404 NOT_FOUND si el profesor no tiene horario
-     * 
      */
     @GetMapping("/profesor/{profesorId}")
     public ResponseEntity<?> getHorarioProfesor(@PathVariable int profesorId) {
         try {
-            List<Horario> horarios = horarioService.getHorarioProfesor(profesorId);
+            List<HorarioDTO> horarios = horarioService.getHorarioProfesor(profesorId);
 
             if (horarios == null || horarios.isEmpty()) {
                 return ResponseEntity
@@ -115,25 +111,18 @@ public class HorarioController {
      * 
      * Obtener el horario semanal de un alumno (generado dinámicamente)
      * 
-     * IMPORTANTE: El horario del alumno NO está almacenado en BBDD,
-     * se genera dinámicamente a partir de: 
-     * - Su ciclo
-     * - Su curso
-     * - Los horarios de los profesores que le dan clase
-     * 
      * @param alumnoId ID del alumno
      * @return 200 OK + horario del alumno
      *         404 NOT_FOUND si el alumno no tiene horario
-     * 
      */
     @GetMapping("/alumno/{alumnoId}")
     public ResponseEntity<?> getHorarioAlumno(@PathVariable int alumnoId) {
         try {
-            List<Horario> horarios = horarioService.getHorarioAlumno(alumnoId);
+            List<HorarioDTO> horarios = horarioService.getHorarioAlumno(alumnoId);
 
             if (horarios == null || horarios.isEmpty()) {
                 return ResponseEntity
-                        . status(HttpStatus.NOT_FOUND)
+                        .status(HttpStatus.NOT_FOUND)
                         .body(createErrorResponse("No se pudo generar el horario del alumno"));
             }
 
