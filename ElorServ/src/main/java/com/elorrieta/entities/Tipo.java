@@ -3,9 +3,12 @@ package com.elorrieta.entities;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "tipos")
-public class Tipo {
+public class Tipo implements Serializable {
+    private static final long serialVersionUID = -8632164890217148L;
     @Expose
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +23,8 @@ public class Tipo {
     @Column(name = "name_eu", length = 50)
     private String nameEu;
 
-    public Tipo() {}
+    public Tipo() {
+    }
 
     public Tipo(String name, String nameEu) {
         this.name = name;

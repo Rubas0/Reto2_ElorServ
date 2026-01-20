@@ -1,5 +1,6 @@
 package com.elorrieta;
 
+import com.elorrieta.tcpServer.SocketTcpLogin;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -7,24 +8,24 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Clase principal de Spring Boot para el servidor ElorServ
- * 
+ *
  * Framework Educativo CIFP Elorrieta-Errekamari
- * 
- * Cosas que hace nuestro gran servidor: 
+ *
+ * Cosas que hace nuestro gran servidor:
  * - API REST para ElorMov (App Móvil) y ElorMAUI
  * - Servidor TCP para ElorES (App Escritorio)
  * - ORM con Hibernate para gestión de BBDD
  * - Servicios de correo electrónico
  * - Cifrado de contraseñas y comunicaciones
- * 
+ *
  */
-	
+
 @SpringBootApplication
 @EnableAsync // Habilita ejecución asíncrona (para envío de correos)
 public class ElorServApplication {
 
     public static void main(String[] args) {
-       
+
         System.out.println("╔═══════════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                                                                           ║");
         System.out.println("║     ███████╗██╗      ██████╗ ██████╗ ███████╗███████╗██████╗ ██╗   ██╗    ║");
@@ -38,10 +39,14 @@ public class ElorServApplication {
         System.out.println("║                                                                           ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════╝");
         System.out.println();
-        
+
         // Arrancar Spring Boot
         SpringApplication.run(ElorServApplication.class, args);
-        
+
+        // Arrancar el servidor TCP en un hilo aparte
+        Thread tcpThread = new Thread(new SocketTcpLogin());
+        tcpThread.start();
+
         // Mensajes de inicio
         System.out.println();
         System.out.println("ElorServ iniciado correctamente");
