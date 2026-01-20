@@ -1,10 +1,13 @@
 package com.elorrieta.controller;
 
 import com.elorrieta.dto.UserDTO;
+import com.elorrieta.entities.User;
+import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.service.UserService;
-import org.springframework.beans. factory.annotation.Autowired;
+import com.elorrieta.threads.mensajes.parts.LoginParts;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework. http.ResponseEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -39,7 +42,7 @@ public class UserController {
      * Obtener un usuario por ID (devuelve DTO, sin password)
      */
     @GetMapping("/{id}")
-    public ResponseEntity<? > getUserById(@PathVariable int id) {
+    public ResponseEntity<?> getUserById(@PathVariable int id) {
         try {
             UserDTO user = userService.getById(id);
 
@@ -67,7 +70,7 @@ public class UserController {
     public ResponseEntity<?> createUser(@RequestBody UserDTO userDTO) {
         try {
             UserDTO savedUser = userService.save(userDTO);
-            return ResponseEntity. status(HttpStatus.CREATED).body(savedUser);
+            return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
 
         } catch (Exception e) {
             System.err.println("Error al crear usuario: " + e.getMessage());
@@ -97,7 +100,7 @@ public class UserController {
             return ResponseEntity.ok(updatedUser);
 
         } catch (Exception e) {
-            System. err.println("Error al actualizar usuario: " + e.getMessage());
+            System.err.println("Error al actualizar usuario: " + e.getMessage());
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(createErrorResponse("Error al actualizar usuario"));
@@ -125,8 +128,8 @@ public class UserController {
         } catch (Exception e) {
             System.err.println("Error al eliminar usuario: " + e.getMessage());
             return ResponseEntity
-                    . status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    . body(createErrorResponse("Error al eliminar usuario"));
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createErrorResponse("Error al eliminar usuario"));
         }
     }
 

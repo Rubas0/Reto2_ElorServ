@@ -35,6 +35,16 @@ public class UserService {
         return user.map(userMapper::toDTO).orElse(null);
     }
 
+    public UserDTO getByUsername(String username) {
+        Optional<User> user = userRepository.findByUsernameWithTipo(username);
+        return user.map(userMapper::toDTO).orElse(null);
+    }
+
+    public User getUserEntityByUsername(String username) {
+        Optional<User> user = userRepository.findByUsernameWithTipo(username);
+        return user.orElse(null);
+    }
+
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
         return users.stream()
