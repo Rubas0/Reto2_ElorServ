@@ -16,7 +16,6 @@ import java.util.List;
  * - ElorMov (App Móvil Android/iOS)
  * - ElorMAUI (App MAUI multiplataforma)
  * 
- * NOTA: ElorAdmin (Angular) NO usa la API REST, se conecta DIRECTAMENTE a MySQL
  */
 @Configuration
 public class CorsConfig {

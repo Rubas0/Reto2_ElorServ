@@ -74,7 +74,7 @@ public class UserService {
 
     public UserDTO getUserByEmail(String email) {
         Optional<User> user = userRepository.findByEmail(email);
-        return user.map(userMapper:: toDTO).orElse(null);
+        return user.map(userMapper::toDTO).orElse(null);
     }
 
     public boolean changePassword(int userId, String oldPassword, String newPassword) {

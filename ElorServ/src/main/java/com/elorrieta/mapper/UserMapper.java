@@ -1,5 +1,7 @@
 package com.elorrieta.mapper;
 
+import com.elorrieta.dto.AlumnoDTO;
+import com.elorrieta.dto.ProfesorDTO;
 import com.elorrieta.dto.UserDTO;
 import com.elorrieta.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +47,7 @@ public class UserMapper {
     /**
      * Convertir Entity → AlumnoDTO (solo datos básicos)
      */
-    public com.elorrieta.dto.AlumnoDTO toAlumnoDTO(User user) {
+    public AlumnoDTO toAlumnoDTO(User user) {
         if (user == null) {
             return null;
         }
@@ -62,7 +64,7 @@ public class UserMapper {
     /**
      * Convertir Entity → ProfesorDTO (solo datos básicos)
      */
-    public com.elorrieta.dto.ProfesorDTO toProfesorDTO(User user) {
+    public ProfesorDTO toProfesorDTO(User user) {
         if (user == null) {
             return null;
         }
