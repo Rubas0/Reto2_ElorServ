@@ -4,11 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "horarios")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Horario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,12 +23,10 @@ public class Horario {
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "profe_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User profe;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "modulo_id", nullable = false)
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Modulo modulo;
 
     @Column(name = "aula", length = 50)

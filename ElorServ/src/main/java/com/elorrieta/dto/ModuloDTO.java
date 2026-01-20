@@ -1,36 +1,21 @@
-package com.elorrieta.entities;
+package com.elorrieta.dto;
 
-
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "modulos")
-public class Modulo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+/**
+ * DTO para Modulo
+ */
+public class ModuloDTO {
     private Integer id;
-
-    @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
-
-    @Column(name = "nombre_eus", length = 200)
     private String nombreEus;
-
-    @Column(name = "horas", nullable = false)
     private Integer horas;
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "ciclo_id", nullable = false)
-    private Ciclo ciclo;
-
-    @Column(name = "curso", nullable = false)
     private Byte curso;
+    private CicloDTO ciclo;
 
-    public Modulo() {}
+    // Constructores
+    public ModuloDTO() {
+    }
 
-    public Modulo(String nombre) {}
-
+    // Getters y Setters
     public Integer getId() {
         return id;
     }
@@ -63,14 +48,6 @@ public class Modulo {
         this.horas = horas;
     }
 
-    public Ciclo getCiclo() {
-        return ciclo;
-    }
-
-    public void setCiclo(Ciclo ciclo) {
-        this.ciclo = ciclo;
-    }
-
     public Byte getCurso() {
         return curso;
     }
@@ -79,4 +56,11 @@ public class Modulo {
         this.curso = curso;
     }
 
+    public CicloDTO getCiclo() {
+        return ciclo;
+    }
+
+    public void setCiclo(CicloDTO ciclo) {
+        this.ciclo = ciclo;
+    }
 }

@@ -1,12 +1,10 @@
 package com.elorrieta.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "ciclos")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ciclo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
