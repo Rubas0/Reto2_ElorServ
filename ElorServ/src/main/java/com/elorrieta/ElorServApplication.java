@@ -1,6 +1,6 @@
 package com.elorrieta;
 
-import com.elorrieta.tcpServer.SocketTcpLogin;
+import com.elorrieta.tcpServer.SocketTcp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -44,7 +44,7 @@ public class ElorServApplication {
         SpringApplication.run(ElorServApplication.class, args);
 
         // Arrancar el servidor TCP en un hilo aparte
-        Thread tcpThread = new Thread(new SocketTcpLogin());
+        Thread tcpThread = new Thread(new SocketTcp());
         tcpThread.start();
 
         // Mensajes de inicio

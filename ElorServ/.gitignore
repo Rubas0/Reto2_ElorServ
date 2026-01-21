@@ -39,3 +39,6 @@ build/
 
 ##### Archivos del proyecto #####
 user.json
+# Configuración local con credenciales
+application-local.properties
+**/application-local.properties

@@ -26,16 +26,14 @@ public class GestorMensajeLogin {
             LoginParts loginParts = (LoginParts) mensaje.getContenido();
 
             // Buscar el usuario en la base de datos
-           User userLogin = userService.getUserEntityByUsername(loginParts.getUsername());
+            User userLogin = userService.getUserEntityByUsername(loginParts.getUsername());
 
-
-           // TODO: validar la contraseña cifrada
-            // Si el usuario existe y la contraseña coincide, devolvemos el usuario, sino null
-//            if (userLogin != null) {
-//                System.out.println("Servidor - Login correcto para el usuario: " + userLogin.getUsername());
-//            } else {
-//                System.out.println("Servidor - Login incorrecto para el usuario: " + loginParts.getUsername());
-//            }
+            // TODO: validar la contraseña cifrada
+            if (userLogin != null && userLogin.getPassword().equals(loginParts.getPassword())) {
+                // Contraseña correcta
+            } else {
+                userLogin = null; // Usuario no encontrado o contraseña incorrecta
+            }
 
             // Generar la respuesta
 

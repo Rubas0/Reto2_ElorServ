@@ -109,23 +109,27 @@ public class UserService {
         return true;
     }
 
-    public String resetPassword(String email) {
+    @Autowired
+    private EmailService emailService;
+
+    public boolean resetPassword(String email) {
         Optional<User> userOpt = userRepository.findByEmail(email);
         
         if (userOpt.isEmpty()) {
             System.out.println("Usuario no encontrado con ese email");
-            return null;
+            return false;
         }
         
         User user = userOpt.get();
         String newPassword = generateRandomPassword();
         user.setPassword(newPassword);
         userRepository.save(user);
-        
+
+        // Enviar email con la nueva contraseña
+        emailService.sendPasswordResetEmail(email, user.getUsername(), newPassword);
+
         System.out. println("Contraseña reseteada para:  " + email);
-        // TODO: Enviar email con la nueva contraseña
-        
-        return newPassword;
+        return true;
     }
 
     private String generateRandomPassword() {
@@ -136,7 +140,6 @@ public class UserService {
             int index = (int) (Math.random() * chars.length());
             password.append(chars.charAt(index));
         }
-        
         return password.toString();
     }
 }

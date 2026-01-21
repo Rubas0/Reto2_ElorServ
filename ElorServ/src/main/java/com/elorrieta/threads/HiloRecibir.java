@@ -2,6 +2,7 @@ package com.elorrieta.threads;
 
 import com.elorrieta.config.ApplicationContextProvider;
 import com.elorrieta.threads.gestores.GestorMensajeLogin;
+import com.elorrieta.threads.gestores.GestorPassReset;
 import com.elorrieta.threads.mensajes.Mensaje;
 
 import java.io.FileOutputStream;
@@ -32,6 +33,10 @@ public class HiloRecibir extends Thread {
                 case "LOGIN":
                     GestorMensajeLogin gestorMensajeLogin = ApplicationContextProvider.getBean(GestorMensajeLogin.class);
                     gestorMensajeLogin.gestionar(mensaje, socket);
+                    break;
+                case "RESET_PASSWORD":
+                    GestorPassReset gestorPassReset = ApplicationContextProvider.getBean(GestorPassReset.class);
+                    gestorPassReset.gestionar(mensaje, socket);
                     break;
                 default:
                     System.out.println("Error super chungo");

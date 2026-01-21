@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class SocketTcpLogin extends Thread {
+public class SocketTcp extends Thread {
     ServerSocket serverSocket = null;
     int puertoServer = 49171;
 
