@@ -1,4 +1,4 @@
-package com.elorrieta.threads.mensajes;
+package com.elorrieta.tcpEnvios.mensajes;
 
 import java.io.Serializable;
 

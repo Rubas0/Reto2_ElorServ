@@ -1,7 +1,7 @@
-package com.elorrieta.threads.gestores;
+package com.elorrieta.tcpEnvios.gestores;
 
 import com.elorrieta.service.UserService;
-import com.elorrieta.threads.mensajes.Mensaje;
+import com.elorrieta.tcpEnvios.mensajes.Mensaje;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ public class GestorPassReset {
     public void gestionar(Mensaje mensaje, Socket socket) {
         Mensaje mensajeRespuesta = new Mensaje();
         try {
-            // Sacamos el PassResetParts del mensaje recibido
+            // Sacamos el correo del mensaje recibido
             String email = mensaje.getContenido().toString();
             // buscamos el usuario por email
             if(userService.getUserByEmail(email) != null) {

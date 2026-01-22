@@ -142,4 +142,8 @@ public class UserService {
         }
         return password.toString();
     }
+
+    public List<User> getStudentsByProfessorId(int professorId) {
+        return userRepository.findStudentsByProfessorId(professorId);
+    }
 }

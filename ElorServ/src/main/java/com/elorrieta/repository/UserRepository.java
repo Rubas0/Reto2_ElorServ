@@ -1,11 +1,12 @@
 package com.elorrieta.repository;
 
 import com.elorrieta.entities.User;
-import org.springframework.data.jpa.repository. JpaRepository;
-import org. springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query. Param;
-import org.springframework. stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -41,4 +42,16 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      * Verificar si existe un usuario con ese email
      */
     boolean existsByEmail(String email);
+
+    /**
+     * Buscar Usuario (Alumno) por el ID de su Profesor
+     *
+     * @return Lista de Usuarios (Alumnos)
+     */
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN Matriculaciones m ON m.alum.id = u.id " +
+            "JOIN Modulo mod ON m.ciclo.id = mod.id " +
+            "JOIN Horario h ON h.modulo.id = mod.id " +
+            "WHERE h.profe.id = :profesorId")
+    List<User> findStudentsByProfessorId(@Param("profesorId") int profesorId);
 }

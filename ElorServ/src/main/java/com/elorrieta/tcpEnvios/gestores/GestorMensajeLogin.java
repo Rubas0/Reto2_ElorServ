@@ -1,17 +1,14 @@
-package com.elorrieta.threads.gestores;
+package com.elorrieta.tcpEnvios.gestores;
 
-import com.elorrieta.controller.UserController;
 import com.elorrieta.entities.User;
-import com.elorrieta.repository.UserRepository;
 import com.elorrieta.service.UserService;
-import com.elorrieta.threads.mensajes.Mensaje;
-import com.elorrieta.threads.mensajes.parts.LoginParts;
+import com.elorrieta.tcpEnvios.mensajes.Mensaje;
+import com.elorrieta.tcpEnvios.mensajes.parts.LoginParts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Optional;
 
 @Component
 public class GestorMensajeLogin {
@@ -38,7 +35,6 @@ public class GestorMensajeLogin {
             // Generar la respuesta
 
             ObjectOutputStream objectOutput = new ObjectOutputStream(socket.getOutputStream());
-            mensajeRespuesta = new Mensaje();
             mensajeRespuesta.setTipoOperacion("RESPUESTA_LOGIN");
             if (userLogin != null) {
                 // Login correcto

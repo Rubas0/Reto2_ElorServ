@@ -1,11 +1,11 @@
-package com.elorrieta.threads;
+package com.elorrieta.tcpEnvios;
 
 import com.elorrieta.config.ApplicationContextProvider;
-import com.elorrieta.threads.gestores.GestorMensajeLogin;
-import com.elorrieta.threads.gestores.GestorPassReset;
-import com.elorrieta.threads.mensajes.Mensaje;
+import com.elorrieta.tcpEnvios.gestores.GestorAlumnosProfesor;
+import com.elorrieta.tcpEnvios.gestores.GestorMensajeLogin;
+import com.elorrieta.tcpEnvios.gestores.GestorPassReset;
+import com.elorrieta.tcpEnvios.mensajes.Mensaje;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -38,6 +38,9 @@ public class HiloRecibir extends Thread {
                     GestorPassReset gestorPassReset = ApplicationContextProvider.getBean(GestorPassReset.class);
                     gestorPassReset.gestionar(mensaje, socket);
                     break;
+                case "GET_ALUMNOS_PROFESOR":
+                    GestorAlumnosProfesor gestorAlumnosProfesor = ApplicationContextProvider.getBean(GestorAlumnosProfesor.class);
+                    gestorAlumnosProfesor.gestionar(mensaje, socket);
                 default:
                     System.out.println("Error super chungo");
             }

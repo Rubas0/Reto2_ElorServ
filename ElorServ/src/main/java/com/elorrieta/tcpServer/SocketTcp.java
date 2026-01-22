@@ -1,6 +1,6 @@
 package com.elorrieta.tcpServer;
 
-import com.elorrieta.threads.HiloRecibir;
+import com.elorrieta.tcpEnvios.HiloRecibir;
 
 import java.net.ServerSocket;
 import java.net.Socket;
