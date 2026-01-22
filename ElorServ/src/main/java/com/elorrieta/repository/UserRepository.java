@@ -50,7 +50,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
      */
     @Query("SELECT DISTINCT u FROM User u " +
             "JOIN Matriculaciones m ON m.alum.id = u.id " +
-            "JOIN Modulo mod ON m.ciclo.id = mod.id " +
+            "JOIN Modulo mod ON m.ciclo.id = mod.ciclo.id " +
             "JOIN Horario h ON h.modulo.id = mod.id " +
             "WHERE h.profe.id = :profesorId")
     List<User> findStudentsByProfessorId(@Param("profesorId") int profesorId);

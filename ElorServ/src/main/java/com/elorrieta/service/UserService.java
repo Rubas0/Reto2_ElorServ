@@ -6,6 +6,7 @@ import com.elorrieta.dto.UserDTO;
 import com.elorrieta.entities.User;
 import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -144,6 +145,15 @@ public class UserService {
     }
 
     public List<User> getStudentsByProfessorId(int professorId) {
-        return userRepository.findStudentsByProfessorId(professorId);
+        List<User> listaAlumnos = userRepository.findStudentsByProfessorId(professorId);
+        for(User alumno : listaAlumnos){
+            // Evitar problemas de FetchType.LAZY
+            Hibernate.initialize(alumno);
+            // Si User tiene relaciones lazy, inicialízalas también
+            if (alumno.getTipo() != null) {
+                Hibernate.initialize(alumno.getTipo());
+            }
+        }
+        return listaAlumnos;
     }
 }
