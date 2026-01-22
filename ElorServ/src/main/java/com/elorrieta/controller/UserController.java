@@ -1,10 +1,7 @@
 package com.elorrieta.controller;
 
 import com.elorrieta.dto.UserDTO;
-import com.elorrieta.entities.User;
-import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.service.UserService;
-import com.elorrieta.threads.mensajes.parts.LoginParts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
