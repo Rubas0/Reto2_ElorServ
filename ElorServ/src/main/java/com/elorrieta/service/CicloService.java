@@ -34,6 +34,10 @@ public class CicloService {
                 .collect(Collectors.toList());
     }
 
+    public List<Ciclo> getAllEntities(){
+        return cicloRepository.findAll();
+    }
+
     public CicloDTO save(CicloDTO cicloDTO) {
         Ciclo ciclo = cicloMapper.toEntity(cicloDTO);
         Ciclo savedCiclo = cicloRepository.save(ciclo);

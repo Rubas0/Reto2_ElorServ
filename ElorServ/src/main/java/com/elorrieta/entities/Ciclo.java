@@ -3,9 +3,13 @@ package com.elorrieta.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "ciclos")
-public class Ciclo {
+public class Ciclo implements Serializable {
+
+    private static final long serialVersionUID = -8632164890217148L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -14,7 +18,8 @@ public class Ciclo {
     @Column(name = "nombre", nullable = false, length = 200)
     private String nombre;
 
-    public Ciclo() {}
+    public Ciclo() {
+    }
 
     public Ciclo(String nombre) {
         this.nombre = nombre;

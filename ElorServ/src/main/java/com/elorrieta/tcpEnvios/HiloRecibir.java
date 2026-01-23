@@ -2,6 +2,7 @@ package com.elorrieta.tcpEnvios;
 
 import com.elorrieta.config.ApplicationContextProvider;
 import com.elorrieta.tcpEnvios.gestores.GestorAlumnosProfesor;
+import com.elorrieta.tcpEnvios.gestores.GestorCiclos;
 import com.elorrieta.tcpEnvios.gestores.GestorMensajeLogin;
 import com.elorrieta.tcpEnvios.gestores.GestorPassReset;
 import com.elorrieta.tcpEnvios.mensajes.Mensaje;
@@ -41,6 +42,10 @@ public class HiloRecibir extends Thread {
                 case "GET_ALUMNOS_PROFESOR":
                     GestorAlumnosProfesor gestorAlumnosProfesor = ApplicationContextProvider.getBean(GestorAlumnosProfesor.class);
                     gestorAlumnosProfesor.gestionar(mensaje, socket);
+                    break;
+                case "GET_CICLOS":
+                    GestorCiclos gestorCiclos = ApplicationContextProvider.getBean(GestorCiclos.class);
+                    gestorCiclos.gestionar(mensaje, socket);
                     break;
                 default:
                     System.out.println("Error super chungo");
