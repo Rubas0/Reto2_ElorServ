@@ -7,7 +7,7 @@ import java.time.LocalDate;
  */
 public class MatriculacionDTO {
     private Integer id;
-    private Byte curso;
+    private Integer curso;
     private LocalDate fecha;
     private AlumnoDTO alumno;
     private CicloDTO ciclo;
@@ -25,11 +25,11 @@ public class MatriculacionDTO {
         this.id = id;
     }
 
-    public Byte getCurso() {
+    public Integer getCurso() {
         return curso;
     }
 
-    public void setCurso(Byte curso) {
+    public void setCurso(Integer curso) {
         this.curso = curso;
     }
 

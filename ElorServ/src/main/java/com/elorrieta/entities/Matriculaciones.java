@@ -4,11 +4,14 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "matriculaciones")
-public class Matriculaciones {
+public class Matriculaciones implements Serializable {
+
+    private static final long serialVersionUID = -8632164890217148L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -24,14 +27,14 @@ public class Matriculaciones {
     private Ciclo ciclo;
 
     @Column(name = "curso", nullable = false)
-    private Byte curso;
+    private Integer curso;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
 
     public Matriculaciones() {}
 
-    public Matriculaciones(User alum, Ciclo ciclo, Byte curso, LocalDate fecha) {
+    public Matriculaciones(User alum, Ciclo ciclo, Integer curso, LocalDate fecha) {
         this.alum = alum;
         this.ciclo = ciclo;
         this.curso = curso;
@@ -62,11 +65,11 @@ public class Matriculaciones {
         this.ciclo = ciclo;
     }
 
-    public Byte getCurso() {
+    public Integer getCurso() {
         return curso;
     }
 
-    public void setCurso(Byte curso) {
+    public void setCurso(Integer curso) {
         this.curso = curso;
     }
 

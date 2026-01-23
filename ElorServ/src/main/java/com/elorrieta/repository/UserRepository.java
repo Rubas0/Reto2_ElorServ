@@ -54,4 +54,21 @@ public interface UserRepository extends JpaRepository<User, Integer> {
             "JOIN Horario h ON h.modulo.id = mod.id " +
             "WHERE h.profe.id = :profesorId")
     List<User> findStudentsByProfessorId(@Param("profesorId") int profesorId);
+
+    /**
+     * Buscar Usuarios (Alumnos) por el ID de su Ciclo
+     *
+     * @return Lista de Usuarios (Alumnos)
+     */
+    @Query("SELECT DISTINCT u FROM User u " +
+            "JOIN Matriculaciones m ON m.alum.id = u.id " +
+            "JOIN Ciclo c ON c.id = m.ciclo.id " +
+            "JOIN Modulo mo ON mo.ciclo.id = c.id " +
+            "JOIN Horario h ON h.modulo.id = mo.id " +
+            "WHERE (:cicloId IS NULL OR c.id = :cicloId) " +
+            "AND (:curso IS NULL OR m.curso = :curso)" +
+            "AND (:profesorId IS NULL OR h.profe.id = :profesorId)")
+    List<User> findUsersByFilter(@Param("cicloId") Integer cicloId,
+                                 @Param("curso") Integer curso,
+                                 @Param("profesorId") Integer profesorId);
 }

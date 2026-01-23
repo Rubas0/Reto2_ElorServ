@@ -6,6 +6,7 @@ import com.elorrieta.dto.UserDTO;
 import com.elorrieta.entities.User;
 import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.repository.UserRepository;
+import com.elorrieta.tcpEnvios.mensajes.parts.FilterParts;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -49,7 +50,7 @@ public class UserService {
     public List<UserDTO> getAll() {
         List<User> users = userRepository.findAll();
         return users.stream()
-                .map(userMapper:: toDTO)
+                .map(userMapper::toDTO)
                 .collect(Collectors.toList());
     }
 
@@ -67,18 +68,18 @@ public class UserService {
 
     public LoginResponseDTO login(LoginRequestDTO loginRequest) {
         Optional<User> userOpt = userRepository.findByUsernameWithTipo(loginRequest.getUsername());
-        
+
         if (userOpt.isEmpty()) {
             return new LoginResponseDTO(false, "Usuario no encontrado");
         }
-        
+
         User user = userOpt.get();
-        
+
         // TODO: Aquí debería descifrarse el password con RSA y compararse con BCrypt
-        if (! user.getPassword().equals(loginRequest.getPassword())) {
+        if (!user.getPassword().equals(loginRequest.getPassword())) {
             return new LoginResponseDTO(false, "Contraseña incorrecta");
         }
-        
+
         UserDTO userDTO = userMapper.toDTO(user);
         return new LoginResponseDTO(true, "Login correcto", userDTO);
     }
@@ -90,22 +91,22 @@ public class UserService {
 
     public boolean changePassword(int userId, String oldPassword, String newPassword) {
         Optional<User> userOpt = userRepository.findById(userId);
-        
+
         if (userOpt.isEmpty()) {
             System.out.println("Usuario no encontrado");
             return false;
         }
-        
+
         User user = userOpt.get();
-        
+
         if (!user.getPassword().equals(oldPassword)) {
-            System. out.println("Contraseña actual incorrecta");
+            System.out.println("Contraseña actual incorrecta");
             return false;
         }
-        
+
         user.setPassword(newPassword);
         userRepository.save(user);
-        
+
         System.out.println("Contraseña cambiada correctamente");
         return true;
     }
@@ -115,12 +116,12 @@ public class UserService {
 
     public boolean resetPassword(String email) {
         Optional<User> userOpt = userRepository.findByEmail(email);
-        
+
         if (userOpt.isEmpty()) {
             System.out.println("Usuario no encontrado con ese email");
             return false;
         }
-        
+
         User user = userOpt.get();
         String newPassword = generateRandomPassword();
         user.setPassword(newPassword);
@@ -129,14 +130,14 @@ public class UserService {
         // Enviar email con la nueva contraseña
         emailService.sendPasswordResetEmail(email, user.getUsername(), newPassword);
 
-        System.out. println("Contraseña reseteada para:  " + email);
+        System.out.println("Contraseña reseteada para:  " + email);
         return true;
     }
 
     private String generateRandomPassword() {
         String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder password = new StringBuilder();
-        
+
         for (int i = 0; i < 8; i++) {
             int index = (int) (Math.random() * chars.length());
             password.append(chars.charAt(index));
@@ -146,10 +147,37 @@ public class UserService {
 
     public List<User> getStudentsByProfessorId(int professorId) {
         List<User> listaAlumnos = userRepository.findStudentsByProfessorId(professorId);
-        for(User alumno : listaAlumnos){
+        for (User alumno : listaAlumnos) {
             // Evitar problemas de FetchType.LAZY
             Hibernate.initialize(alumno);
-            // Si User tiene relaciones lazy, inicialízalas también
+            // Inicializar también las relaciones lazy de User
+            if (alumno.getTipo() != null) {
+                Hibernate.initialize(alumno.getTipo());
+            }
+        }
+        return listaAlumnos;
+    }
+
+    public List<User> getUserByFilter(FilterParts filterParts) {
+        Integer idCiclo, curso;
+        Integer profesorId = filterParts.getUser().getId();
+        try {
+            idCiclo = filterParts.getCiclo().getId();
+        } catch (NullPointerException e) {
+            System.out.println("Ciclo es nulo en el filtro");
+            idCiclo = null;
+        }
+        try {
+            curso = filterParts.getMatriculaciones().getCurso();
+        } catch (NullPointerException e) {
+            System.out.println("Curso es nulo en el filtro");
+            curso = null;
+        }
+        List<User> listaAlumnos = userRepository.findUsersByFilter(idCiclo, curso, profesorId);
+        for (User alumno : listaAlumnos) {
+            // Evitar problemas de FetchType.LAZY
+            Hibernate.initialize(alumno);
+            // Inicializar también las relaciones lazy de User
             if (alumno.getTipo() != null) {
                 Hibernate.initialize(alumno.getTipo());
             }
