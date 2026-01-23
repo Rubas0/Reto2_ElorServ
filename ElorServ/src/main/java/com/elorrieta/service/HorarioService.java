@@ -2,6 +2,7 @@ package com.elorrieta.service;
 
 import com.elorrieta. dto.HorarioDTO;
 import com.elorrieta. entities.Horario;
+import com.elorrieta.entities.User;
 import com.elorrieta.mapper.HorarioMapper;
 import com.elorrieta.repository.HorarioRepository;
 import org.springframework.beans.factory. annotation.Autowired;
@@ -34,6 +35,7 @@ public class HorarioService {
                 .collect(Collectors.toList());
     }
 
+
     public HorarioDTO save(HorarioDTO horarioDTO) {
         Horario horario = horarioMapper.toEntity(horarioDTO);
         Horario savedHorario = horarioRepository.save(horario);
@@ -49,6 +51,10 @@ public class HorarioService {
         return horarios.stream()
                 .map(horarioMapper::toDTO)
                 .collect(Collectors.toList());
+    }
+
+    public List<Horario> getHorariosProfesor(User profesor) {
+        return horarioRepository.findByProfesorId(profesor.getId());
     }
 
     public List<HorarioDTO> getHorarioAlumno(int alumnoId) {

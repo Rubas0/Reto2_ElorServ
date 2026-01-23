@@ -3,9 +3,13 @@ package com.elorrieta.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "modulos")
-public class Modulo {
+public class Modulo implements Serializable {
+
+    private static final long serialVersionUID = -8632164890217148L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

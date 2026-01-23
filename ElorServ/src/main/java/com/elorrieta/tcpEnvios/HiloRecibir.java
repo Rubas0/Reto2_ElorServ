@@ -48,6 +48,11 @@ public class HiloRecibir extends Thread {
                     GestorAlumnosFiltro gestorAlumnosFiltro = ApplicationContextProvider.getBean(GestorAlumnosFiltro.class);
                     gestorAlumnosFiltro.gestionar(mensaje, socket);
                     break;
+                case "GET_HORARIO_PROFESOR":
+                    GestorHorarios gestorHorarios = ApplicationContextProvider.getBean(GestorHorarios.class);
+                    gestorHorarios.gestionar(mensaje, socket);
+                    break;
+
                 default:
                     System.out.println("Error super chungo");
             }

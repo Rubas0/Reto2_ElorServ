@@ -4,10 +4,13 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
+
 
 @Entity
 @Table(name = "horarios")
-public class Horario {
+public class Horario implements Serializable {
+    private static final long serialVersionUID = -8632164890217148L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -35,7 +38,8 @@ public class Horario {
     @Column(name = "observaciones")
     private String observaciones;
 
-    public Horario() {}
+    public Horario() {
+    }
 
     public Horario(String dia, Integer hora, User profe, Modulo modulo, String aula, String observaciones) {
         this.dia = dia;
