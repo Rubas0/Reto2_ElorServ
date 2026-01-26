@@ -184,4 +184,16 @@ public class UserService {
         }
         return listaAlumnos;
     }
+
+	public void updatePhotoUrl(int id, String string) {
+		Optional<User> userOpt = userRepository.findById(id);
+		if (userOpt.isPresent()) {
+			User user = userOpt.get();
+			user.setArgazkiaUrl(string);
+			userRepository.save(user);
+		} else {
+			System.out.println("Usuario no encontrado con ID: " + id);
+		}
+		
+	}
 }
