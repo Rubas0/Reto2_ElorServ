@@ -5,6 +5,7 @@ import com.elorrieta. entities.Horario;
 import com.elorrieta.entities.User;
 import com.elorrieta.mapper.HorarioMapper;
 import com.elorrieta.repository.HorarioRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory. annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction. annotation.Transactional;
@@ -54,7 +55,18 @@ public class HorarioService {
     }
 
     public List<Horario> getHorariosProfesor(User profesor) {
-        return horarioRepository.findByProfesorId(profesor.getId());
+
+        List<Horario> horarios = horarioRepository.findByProfesorId(profesor.getId());
+        // Inicializar las asociaciones perezosas si es necesario
+        for (Horario horario : horarios) {
+            // Evitar problemas de FetchType.LAZY
+            Hibernate.initialize(horario);
+            // Inicializar también las relaciones lazy de User
+            if (horario.getModulo() != null) {
+                Hibernate.initialize(horario.getModulo());
+            }
+        }
+        return horarios;
     }
 
     public List<HorarioDTO> getHorarioAlumno(int alumnoId) {

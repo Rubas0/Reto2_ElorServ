@@ -5,10 +5,13 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
+
 
 @Entity
 @Table(name = "reuniones")
-public class Reuniones {
+public class Reuniones implements Serializable {
+    private static final long serialVersionUID = -8632164890217148L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_reunion", nullable = false)
@@ -55,7 +58,8 @@ public class Reuniones {
     @Column(name = "hora")
     private Integer hora;
 
-    public  Reuniones() {}
+    public Reuniones() {
+    }
 
     public Reuniones(String estado, String estadoEus, User profesor, User alumno, String idCentro, String titulo, String asunto, String aula, Integer dia, Integer semana, Integer hora) {
         this.estado = estado;

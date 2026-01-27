@@ -41,7 +41,7 @@ public class ElorServApplication {
         System.out.println("║                                                                           ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════╝");
         System.out.println();
-        
+
         // Arrancar el servidor TCP en un hilo aparte
         Thread tcpThread = new Thread(new SocketTcp());
         tcpThread.start();
