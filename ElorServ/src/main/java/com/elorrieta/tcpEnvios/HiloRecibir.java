@@ -52,7 +52,10 @@ public class HiloRecibir extends Thread {
                     GestorHorarios gestorHorarios = ApplicationContextProvider.getBean(GestorHorarios.class);
                     gestorHorarios.gestionar(mensaje, socket);
                     break;
-
+                case "GET_PROFILE_IMG":
+                    GestorImagenPerfil gestorImagenPerfil = ApplicationContextProvider.getBean(GestorImagenPerfil.class);
+                    gestorImagenPerfil.gestionar(mensaje, socket);
+                    break;
                 default:
                     System.out.println("Error super chungo");
             }

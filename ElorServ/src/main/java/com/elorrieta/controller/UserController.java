@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("/api/users")
 @CrossOrigin(origins = "*")
 public class UserController {
-	
+
     // Directorio donde se guardan las fotos de perfil de los usuarios
     @Value("${upload.path:uploads}")
     private String uploadPath;
@@ -141,8 +141,7 @@ public class UserController {
                     .body(createErrorResponse("Error al eliminar usuario"));
         }
     }
-    
-    
+
 
     /**
      * POST /api/users/{id}/photo
@@ -157,7 +156,7 @@ public class UserController {
             // Validar que el archivo no esté vacío
             if (file.isEmpty()) {
                 return ResponseEntity.badRequest().body(
-                    new UploadPhotoResponseDTO(false, "Archivo vacío", null)
+                        new UploadPhotoResponseDTO(false, "Archivo vacío", null)
                 );
             }
 
@@ -165,7 +164,7 @@ public class UserController {
             String contentType = file.getContentType();
             if (contentType == null || !contentType.startsWith("image/")) {
                 return ResponseEntity.badRequest().body(
-                    new UploadPhotoResponseDTO(false, "Solo se permiten imágenes", null)
+                        new UploadPhotoResponseDTO(false, "Solo se permiten imágenes", null)
                 );
             }
 
@@ -179,27 +178,34 @@ public class UserController {
             String fileName = "user_" + id + "_" + System.currentTimeMillis() + ".jpg";
             Path filePath = Paths.get(uploadPath, fileName);
 
-            // Guardar el archivo
+            // Borrar foto anterior si existe
+            UserDTO user = userService.getById(id);
+            if (user != null && user.getArgazkiaUrl() != null) {
+                Path oldPhotoPath = Paths.get(uploadPath, user.getArgazkiaUrl());
+                Files.deleteIfExists(oldPhotoPath);
+            }
+
+            // Guardar el archivo nuevo
             Files.write(filePath, file.getBytes());
 
-            // TODO: Actualizar BBDD con la URL de la foto
-            userService.updatePhotoUrl(id, "/uploads/" + fileName);
 
-            String photoUrl = "/uploads/" + fileName;
+            // TODO: Actualizar BBDD con la URL de la foto
+            userService.updatePhotoUrl(id, "/" + fileName);
+
+            String photoUrl = "ElorServ/src/main/resources/uploads/" + fileName;
 
             return ResponseEntity.ok(
-                new UploadPhotoResponseDTO(true, "Foto subida correctamente", photoUrl)
+                    new UploadPhotoResponseDTO(true, "Foto subida correctamente", photoUrl)
             );
 
         } catch (IOException e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body(
-                new UploadPhotoResponseDTO(false, "Error al guardar la foto: " + e.getMessage(), null)
+                    new UploadPhotoResponseDTO(false, "Error al guardar la foto: " + e.getMessage(), null)
             );
         }
     }
 
-    
 
     // ========== MÉTODOS AUXILIARES ==========
 

@@ -8,9 +8,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Clase principal de Spring Boot para el servidor ElorServ
- *
+ * <p>
  * Framework Educativo CIFP Elorrieta-Errekamari
- *
+ * <p>
  * Cosas que hace nuestro gran servidor:
  * - API REST para ElorMov (App Móvil) y ElorMAUI
  * - Servidor TCP para ElorES (App Escritorio)
@@ -25,6 +25,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
 public class ElorServApplication {
 
     public static void main(String[] args) {
+        // Arrancar Spring Boot
+        SpringApplication.run(ElorServApplication.class, args);
 
         System.out.println("╔═══════════════════════════════════════════════════════════════════════════╗");
         System.out.println("║                                                                           ║");
@@ -39,10 +41,7 @@ public class ElorServApplication {
         System.out.println("║                                                                           ║");
         System.out.println("╚═══════════════════════════════════════════════════════════════════════════╝");
         System.out.println();
-
-        // Arrancar Spring Boot
-        SpringApplication.run(ElorServApplication.class, args);
-
+        
         // Arrancar el servidor TCP en un hilo aparte
         Thread tcpThread = new Thread(new SocketTcp());
         tcpThread.start();
