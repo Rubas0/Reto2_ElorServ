@@ -54,6 +54,17 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+    public List<User> getAllProfesoresEntities() {
+        List<User> users = userRepository.findAllProfesores();
+        // Inicializar las relaciones lazy de User
+        for (User user : users) {
+            if (user.getTipo() != null) {
+                Hibernate.initialize(user.getTipo());
+            }
+        }
+        return users;
+    }
+
     public UserDTO save(UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
         User savedUser = userRepository.save(user);
@@ -185,15 +196,15 @@ public class UserService {
         return listaAlumnos;
     }
 
-	public void updatePhotoUrl(int id, String string) {
-		Optional<User> userOpt = userRepository.findById(id);
-		if (userOpt.isPresent()) {
-			User user = userOpt.get();
-			user.setArgazkiaUrl(string);
-			userRepository.save(user);
-		} else {
-			System.out.println("Usuario no encontrado con ID: " + id);
-		}
-		
-	}
+    public void updatePhotoUrl(int id, String string) {
+        Optional<User> userOpt = userRepository.findById(id);
+        if (userOpt.isPresent()) {
+            User user = userOpt.get();
+            user.setArgazkiaUrl(string);
+            userRepository.save(user);
+        } else {
+            System.out.println("Usuario no encontrado con ID: " + id);
+        }
+
+    }
 }

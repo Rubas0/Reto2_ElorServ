@@ -70,7 +70,7 @@ public class ReunionService {
     }
 
     public List<Reuniones> getReunionesProfesorEntity(int profesorId) {
-        List<Reuniones>reunionesList = reunionesRepository.findByProfesorId(profesorId);
+        List<Reuniones> reunionesList = reunionesRepository.findByProfesorId(profesorId);
         // Inicializar las asociaciones perezosas si es necesario
         for (Reuniones reunion : reunionesList) {
             // Evitar problemas de FetchType.LAZY
@@ -78,9 +78,17 @@ public class ReunionService {
             // Inicializar también las relaciones lazy de reuniones
             if (reunion.getProfesor() != null) {
                 Hibernate.initialize(reunion.getProfesor());
+                // Inicializar también las relaciones lazy de User
+                if (reunion.getProfesor().getTipo() != null) {
+                    Hibernate.initialize(reunion.getProfesor().getTipo());
+                }
             }
-            if(reunion.getAlumno() != null) {
+            if (reunion.getAlumno() != null) {
                 Hibernate.initialize(reunion.getAlumno());
+                // Inicializar también las relaciones lazy de User
+                if (reunion.getAlumno().getTipo() != null) {
+                    Hibernate.initialize(reunion.getAlumno().getTipo());
+                }
             }
         }
         return reunionesList;

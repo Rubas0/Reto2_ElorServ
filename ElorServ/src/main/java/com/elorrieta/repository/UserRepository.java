@@ -71,4 +71,12 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findUsersByFilter(@Param("cicloId") Integer cicloId,
                                  @Param("curso") Integer curso,
                                  @Param("profesorId") Integer profesorId);
+
+    /**
+     * Buscar usuarios con el tipo Profesor
+     *
+     * @return Lista de Usuarios (Profesores)
+     */
+    @Query("SELECT u FROM User u WHERE u.tipo.name = 'profesor'")
+    List<User> findAllProfesores();
 }
