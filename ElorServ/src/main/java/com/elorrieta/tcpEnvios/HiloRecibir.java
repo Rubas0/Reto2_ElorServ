@@ -64,6 +64,10 @@ public class HiloRecibir extends Thread {
                     GestorProfesores gestorProfesores = ApplicationContextProvider.getBean(GestorProfesores.class);
                     gestorProfesores.gestionar(mensaje, socket);
                     break;
+                    case "UPDATE_REUNIONES_PROFESOR":
+                    GestorReuniones gestorUpdateReuniones = ApplicationContextProvider.getBean(GestorReuniones.class);
+                    gestorUpdateReuniones.updateReuniones(mensaje, socket);
+                    break;
                 default:
                     System.out.println("Error super chungo");
             }

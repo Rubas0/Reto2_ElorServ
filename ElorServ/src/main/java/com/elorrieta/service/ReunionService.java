@@ -41,6 +41,9 @@ public class ReunionService {
         Reuniones savedReunion = reunionesRepository.save(reunion);
         return reunionMapper.toDTO(savedReunion);
     }
+    public void updateEntity(Reuniones reunion){
+        reunionesRepository.save(reunion);
+    }
 
     public void delete(int id) {
         reunionesRepository.deleteById(id);
