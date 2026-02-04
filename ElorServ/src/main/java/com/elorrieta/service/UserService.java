@@ -93,7 +93,7 @@ public class UserService {
 
         User user = userOpt.get();
 
-        // TODO: Aquí debería descifrarse el password con RSA y compararse con BCrypt
+        // TODO: Aquí debería descifrarse el password con RSA
         if (!user.getPassword().equals(loginRequest.getPassword())) {
             return new LoginResponseDTO(false, "Contraseña incorrecta");
         }
