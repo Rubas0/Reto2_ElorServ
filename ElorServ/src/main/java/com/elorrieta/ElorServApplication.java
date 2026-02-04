@@ -17,6 +17,8 @@ import org.springframework.scheduling.annotation.EnableAsync;
  * - ORM con Hibernate para gestión de BBDD
  * - Servicios de correo electrónico
  * - Cifrado de contraseñas y comunicaciones
+ * 
+ *  sha login
  *
  */
 

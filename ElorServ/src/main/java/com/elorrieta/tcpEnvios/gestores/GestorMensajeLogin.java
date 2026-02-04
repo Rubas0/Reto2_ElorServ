@@ -4,6 +4,8 @@ import com.elorrieta.entities.User;
 import com.elorrieta.service.UserService;
 import com.elorrieta.tcpEnvios.mensajes.Mensaje;
 import com.elorrieta.tcpEnvios.mensajes.parts.LoginParts;
+import com.elorrieta.encriptado.CryptSHA;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,11 +27,15 @@ public class GestorMensajeLogin {
             // Buscar el usuario en la base de datos
             User userLogin = userService.getUserEntityByUsername(loginParts.getUsername());
 
-            // TODO: validar la contraseña cifrada
-            if (userLogin != null && userLogin.getPassword().equals(loginParts.getPassword())) {
-                // Contraseña correcta
-            } else {
-                userLogin = null; // Usuario no encontrado o contraseña incorrecta
+            // Valida la contraseña cifrada
+            if (userLogin !=null) {
+            	CryptSHA sha = new CryptSHA();
+            	String passwordCifrada = sha.cifrarTexto(loginParts.getPassword());
+            	System.out.println("Servidor - Password cifrada recibida: " + passwordCifrada);
+            	if (!passwordCifrada.equals(userLogin.getPassword())) {
+					// Contraseña incorrecta
+					userLogin = null;
+				}
             }
 
             // Generar la respuesta
