@@ -5,7 +5,10 @@ import com.elorrieta.dto.UserDTO;
 import com.elorrieta.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -206,8 +209,6 @@ public class UserController {
             // Guardar el archivo nuevo
             Files.write(filePath, file.getBytes());
 
-
-            // TODO: Actualizar BBDD con la URL de la foto
             userService.updatePhotoUrl(id, "/" + fileName);
 
             String photoUrl = "ElorServ/src/main/resources/uploads/" + fileName;
@@ -221,6 +222,45 @@ public class UserController {
             return ResponseEntity.status(500).body(
                     new UploadPhotoResponseDTO(false, "Error al guardar la foto: " + e.getMessage(), null)
             );
+        }
+    }
+
+    /**
+     * GET /api/users/{id}/argazkiaUrl
+     * Obtener la foto de perfil del usuario
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}/argazkiaUrl")
+    public ResponseEntity<Resource> getPhoto(@PathVariable int id) {
+        try {
+            UserDTO user = userService.getById(id);
+
+            if (user == null || user.getArgazkiaUrl() == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            // Construir la ruta completa del archivo
+            Path filePath = Paths.get(uploadPath).resolve(user.getArgazkiaUrl().substring(1));
+            Resource resource = new UrlResource(filePath.toUri());
+
+            if (!resource.exists() || !resource.isReadable()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            }
+
+            // Determinar el tipo de contenido
+            String contentType = Files.probeContentType(filePath);
+            if (contentType == null) {
+                contentType = MediaType.APPLICATION_OCTET_STREAM_VALUE;
+            }
+
+            return ResponseEntity.ok()
+                    .contentType(MediaType.parseMediaType(contentType))
+                    .body(resource);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
