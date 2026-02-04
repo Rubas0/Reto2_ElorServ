@@ -69,8 +69,10 @@ public class HorarioService {
         return horarios;
     }
 
-    public List<HorarioDTO> getHorarioAlumno(int alumnoId) {
-        // TODO: Generar horario del alumno dinámicamente
-        return null;
+    public List<HorarioDTO> getHorariosAlumno(int alumnoId) {
+        List<Horario> horarios = horarioRepository.findByAlumnoId(alumnoId);
+        return horarios.stream()
+                .map(horarioMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

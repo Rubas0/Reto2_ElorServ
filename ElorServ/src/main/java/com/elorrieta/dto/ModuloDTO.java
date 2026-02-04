@@ -8,7 +8,7 @@ public class ModuloDTO {
     private String nombre;
     private String nombreEus;
     private Integer horas;
-    private Byte curso;
+    private Integer curso;
     private CicloDTO ciclo;
 
     // Constructores
@@ -48,11 +48,11 @@ public class ModuloDTO {
         this.horas = horas;
     }
 
-    public Byte getCurso() {
+    public Integer getCurso() {
         return curso;
     }
 
-    public void setCurso(Byte curso) {
+    public void setCurso(Integer curso) {
         this.curso = curso;
     }
 

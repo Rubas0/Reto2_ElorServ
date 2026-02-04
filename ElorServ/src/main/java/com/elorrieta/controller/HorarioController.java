@@ -118,7 +118,7 @@ public class HorarioController {
     @GetMapping("/alumno/{alumnoId}")
     public ResponseEntity<?> getHorarioAlumno(@PathVariable int alumnoId) {
         try {
-            List<HorarioDTO> horarios = horarioService.getHorarioAlumno(alumnoId);
+            List<HorarioDTO> horarios = horarioService.getHorariosAlumno(alumnoId);
 
             if (horarios == null || horarios.isEmpty()) {
                 return ResponseEntity

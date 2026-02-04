@@ -29,7 +29,7 @@ public class Modulo implements Serializable {
     private Ciclo ciclo;
 
     @Column(name = "curso", nullable = false)
-    private Byte curso;
+    private Integer curso;
 
     public Modulo() {}
 
@@ -75,11 +75,11 @@ public class Modulo implements Serializable {
         this.ciclo = ciclo;
     }
 
-    public Byte getCurso() {
+    public Integer getCurso() {
         return curso;
     }
 
-    public void setCurso(Byte curso) {
+    public void setCurso(Integer curso) {
         this.curso = curso;
     }
 

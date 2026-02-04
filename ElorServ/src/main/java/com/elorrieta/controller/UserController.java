@@ -72,6 +72,24 @@ public class UserController {
     }
 
     /**
+     * GET /api/users/tipo/{tipo}
+     * Obtener usuarios por tipo (devuelve DTOs, sin password)
+     */
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<?> getUsersByTipo(@PathVariable int tipo) {
+        try{
+            List<UserDTO> users = userService.getByTipo(tipo);
+            return ResponseEntity.ok(users);
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener usuarios por tipo: " + e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createErrorResponse("Error interno del servidor"));
+        }
+    }
+
+    /**
      * POST /api/users
      * Crear un nuevo usuario
      */

@@ -34,6 +34,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByUsernameWithTipo(@Param("username") String username);
 
     /**
+     * Buscar usuario por tipo
+     */
+    @Query("SELECT u FROM User u WHERE u.tipo.id = :tipoId")
+    List<User> findByTipo(@Param("tipoId") int tipoId);
+    /**
      * Verificar si existe un usuario con ese username
      */
     boolean existsByUsername(String username);
