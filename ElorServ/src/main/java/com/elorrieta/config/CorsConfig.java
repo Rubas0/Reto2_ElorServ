@@ -29,16 +29,14 @@ public class CorsConfig {
         config.setAllowCredentials(true);
 
         // Orígenes permitidos (ElorMAUI, ElorMov, localhost para que funcione en local, de nada)
-        // IMPORTANTE: Ajusta estos orígenes según tus necesidades
         List<String> allowedOrigins = Arrays.asList(
             "http://localhost:8100",      // ElorMov en emulador Android
             "http://localhost:8081",      // ElorMAUI en desarrollo
             "http://10.0.2.2:8080",       // Android emulator apuntando a localhost
             "http://localhost:5000",      // MAUI alternativo
-            "*"                           // TEMPORALMENTE permitir todos (¡QUITAR EN PRODUCCIÓN!)
+            "*"                           // TEMPORALMENTE permitir todos
         );
         
-        // NOTA: En producción, quita el "*" y deja solo los orígenes específicos
         config.setAllowedOriginPatterns(Arrays.asList("*")); // Permite todos temporalmente
         
         // Métodos HTTP permitidos

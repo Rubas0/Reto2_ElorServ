@@ -3,6 +3,7 @@ package com.elorrieta.service;
 import com.elorrieta.dto.LoginRequestDTO;
 import com.elorrieta.dto.LoginResponseDTO;
 import com.elorrieta.dto.UserDTO;
+import com.elorrieta.encriptado.CryptSHA;
 import com.elorrieta.entities.User;
 import com.elorrieta.mapper.UserMapper;
 import com.elorrieta.repository.UserRepository;
@@ -29,6 +30,12 @@ public class UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private EmailService emailService;
+
+    // Instancia de CryptSHA para hashear contraseñas
+    private CryptSHA cryptSHA = new CryptSHA();
 
     // ========== CRUD BÁSICO (devuelve DTOs) ==========
 
@@ -74,6 +81,12 @@ public class UserService {
 
     public UserDTO save(UserDTO userDTO) {
         User user = userMapper.toEntity(userDTO);
+        
+        // Hashear la contraseña antes de guardar
+        if (user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(cryptSHA.cifrarTexto(user.getPassword()));
+        }
+        
         User savedUser = userRepository.save(user);
         return userMapper.toDTO(savedUser);
     }
@@ -93,8 +106,9 @@ public class UserService {
 
         User user = userOpt.get();
 
-        // TODO: Aquí debería descifrarse el password con RSA
-        if (!user.getPassword().equals(loginRequest.getPassword())) {
+        // Hashear la contraseña recibida y comparar con la almacenada
+        String passwordHashed = cryptSHA.cifrarTexto(loginRequest.getPassword());
+        if (!user.getPassword().equals(passwordHashed)) {
             return new LoginResponseDTO(false, "Contraseña incorrecta");
         }
 
@@ -117,22 +131,24 @@ public class UserService {
 
         User user = userOpt.get();
 
-        if (!user.getPassword().equals(oldPassword)) {
+        // Hashear la contraseña vieja para comparar
+        String oldPasswordHashed = cryptSHA.cifrarTexto(oldPassword);
+        if (!user.getPassword().equals(oldPasswordHashed)) {
             System.out.println("Contraseña actual incorrecta");
             return false;
         }
 
-        user.setPassword(newPassword);
+        // Hashear la nueva contraseña antes de guardar
+        user.setPassword(cryptSHA.cifrarTexto(newPassword));
         userRepository.save(user);
 
         System.out.println("Contraseña cambiada correctamente");
         return true;
     }
 
-    @Autowired
-    private EmailService emailService;
-
     public boolean resetPassword(String email) {
+        System.out.println("Email: " + email);
+        
         Optional<User> userOpt = userRepository.findByEmail(email);
 
         if (userOpt.isEmpty()) {
@@ -141,14 +157,27 @@ public class UserService {
         }
 
         User user = userOpt.get();
+        System.out.println("Usuario encontrado: " + user.getUsername());
+        
+        // Generar contraseña en texto plano
         String newPassword = generateRandomPassword();
-        user.setPassword(newPassword);
+        System.out.println("Password TEXTO PLANO (se enviará al email): " + newPassword);
+        
+        // Hashear con SHA
+        String passwordHasheada = cryptSHA.cifrarTexto(newPassword);
+        System.out.println("Password HASHEADA (se guardará en BD): " + passwordHasheada);
+        
+        // Guardar en BD hasheada con SHA
+        user.setPassword(passwordHasheada);
         userRepository.save(user);
+        System.out.println("Password HASHEADA guardada en BD");
 
-        // Enviar email con la nueva contraseña
+        // Enviar email con la contraseña EN TEXTO PLANO
+        System.out.println("Enviando email con password en TEXTO PLANO");
         emailService.sendPasswordResetEmail(email, user.getUsername(), newPassword);
 
-        System.out.println("Contraseña reseteada para:  " + email);
+        System.out.println("Contraseña reseteada para: " + email);
+        System.out.println("Reset correcto :D");
         return true;
     }
 
@@ -212,6 +241,5 @@ public class UserService {
         } else {
             System.out.println("Usuario no encontrado con ID: " + id);
         }
-
     }
 }

@@ -1,5 +1,6 @@
 package com.elorrieta.service;
 
+import com.elorrieta.encriptado.CryptAES;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,6 +23,11 @@ public class EmailService {
     @Async
     public void sendPasswordResetEmail(String toEmail, String username, String newPassword) {
         try {
+            // Descifrar credenciales para verificar
+            CryptAES cryptAES = new CryptAES();
+            String credencialesDescifradas = cryptAES.descifrarCredenciales("Clave");
+            System.out.println("Credenciales descifradas: " + credencialesDescifradas);
+            
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
             message.setTo(toEmail);
