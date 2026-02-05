@@ -192,6 +192,13 @@ public class UserService {
         return password.toString();
     }
 
+    public List<UserDTO> getStudentsDTOByProfessorId(int professorId) {
+        List<User> listaAlumnos = userRepository.findStudentsByProfessorId(professorId);
+        return listaAlumnos.stream()
+                .map(userMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
     public List<User> getStudentsByProfessorId(int professorId) {
         List<User> listaAlumnos = userRepository.findStudentsByProfessorId(professorId);
         for (User alumno : listaAlumnos) {

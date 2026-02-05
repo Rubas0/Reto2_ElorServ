@@ -93,6 +93,24 @@ public class UserController {
     }
 
     /**
+     * GET /api/users/profesor/{profesorId}/students
+     * Obtener aalumnos por ID de su profesor
+     */
+    @GetMapping("/profesor/{profesorId}/students")
+    public ResponseEntity<?> getStudentsByProfessorId(@PathVariable int profesorId) {
+        try {
+            List<UserDTO> students = userService.getStudentsDTOByProfessorId(profesorId);
+            return ResponseEntity.ok(students);
+
+        } catch (Exception e) {
+            System.err.println("Error al obtener alumnos por ID de profesor: " + e.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(createErrorResponse("Error interno del servidor"));
+        }
+    }
+
+    /**
      * POST /api/users
      * Crear un nuevo usuario
      */
